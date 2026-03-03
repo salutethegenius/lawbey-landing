@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LawBey — Identity System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Barlow:wght@300;400;500;600&display=swap');
+
+  :root {
+    --ink:       #111827;
+    --ink-mid:   #1F2937;
+    --ink-light: #374151;
+    --amber:     #C8922A;
+    --amber-light:#E0AE52;
+    --amber-pale: #F5E6C8;
+    --amber-wash: #FBF5E8;
+    --teal:      #1B6068;
+    --teal-light:#2A8A95;
+    --parchment: #F0EBE1;
+    --parchment-dark: #E4DDD1;
+    --stone:     #9CA3AF;
+    --white:     #FFFFFF;
+    --rule:      rgba(17,24,39,0.08);
+    --rule-amber:rgba(200,146,42,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: #EDEAE4;
+    color: var(--ink);
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    background: var(--ink);
+    padding: 88px 72px 80px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 48px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px solid var(--amber);
+  }
+
+  /* Parchment texture lines in bg */
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 28px,
+      rgba(255,255,255,0.025) 28px,
+      rgba(255,255,255,0.025) 29px
+    );
+  }
+
+  .cover-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .cover-eyebrow::before {
+    content: '§';
+    font-size: 14px;
+    color: var(--amber);
+    font-family: 'Cormorant Garant', serif;
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 88px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    position: relative;
+  }
+
+  .cover h1 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+
+  .cover-descriptor {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.08em;
+    margin-top: 24px;
+    line-height: 2;
+    position: relative;
+  }
+
+  .cover-meta {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.22);
+    letter-spacing: 0.1em;
+    line-height: 2.4;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .cover-meta strong {
+    color: var(--amber);
+    font-weight: 500;
+    display: block;
+  }
+
+  /* ─── SECTIONS ─── */
+  .section {
+    padding: 80px 72px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .s-parchment { background: var(--parchment); }
+  .s-white     { background: var(--white); }
+  .s-ink       { background: var(--ink); }
+  .s-ink-mid   { background: var(--ink-mid); }
+  .s-wash      { background: var(--amber-wash); }
+  .s-stone     { background: #E8E4DC; }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .eyebrow::before {
+    content: '§';
+    font-family: 'Cormorant Garant', serif;
+    font-size: 14px;
+    color: var(--amber);
+    line-height: 1;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 52px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+    line-height: 1.1;
+  }
+
+  .s-ink .section-title,
+  .s-ink-mid .section-title {
+    color: var(--white);
+    border-bottom-color: rgba(255,255,255,0.07);
+  }
+
+  /* ─── LOGO CELLS ─── */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3px;
+    margin-bottom: 3px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    margin-bottom: 3px;
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 56px 32px 44px;
+    position: relative;
+    min-height: 220px;
+  }
+
+  .c-parch { background: var(--parchment); }
+  .c-white { background: var(--white); }
+  .c-ink   { background: var(--ink); }
+  .c-ink2  { background: var(--ink-mid); }
+  .c-amber { background: var(--amber); }
+  .c-teal  { background: var(--teal); }
+  .c-pale  { background: var(--amber-pale); }
+  .c-stone { background: #E2DDD5; }
+
+  .tag {
+    position: absolute;
+    bottom: 13px;
+    left: 18px;
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+
+  .tag-d { color: var(--white); }
+  .tag-l { color: var(--ink); }
+
+  /* ─── ANNOTATION ─── */
+  .annot {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 64px;
+    align-items: start;
+    margin-top: 48px;
+  }
+
+  .annot-body h3 {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+
+  .s-ink .annot-body h3,
+  .s-ink-mid .annot-body h3 { color: var(--white); }
+
+  .annot-body p {
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: var(--ink-light);
+    margin-bottom: 14px;
+    font-weight: 400;
+  }
+
+  .s-ink .annot-body p,
+  .s-ink-mid .annot-body p { color: rgba(255,255,255,0.5); }
+
+  .spec-list {
+    list-style: none;
+    border-top: 1px solid var(--rule);
+    padding-top: 18px;
+    margin-top: 18px;
+  }
+
+  .s-ink .spec-list,
+  .s-ink-mid .spec-list { border-top-color: rgba(255,255,255,0.07); }
+
+  .spec-list li {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    color: var(--amber);
+    letter-spacing: 0.04em;
+    padding: 5px 0;
+    display: flex;
+    gap: 10px;
+    line-height: 1.5;
+  }
+
+  .spec-list li::before { content: '→'; flex-shrink: 0; }
+
+  /* ─── SWATCHES ─── */
+  .swatch-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+  }
+
+  .swatch {
+    height: 110px;
+    display: flex;
+    align-items: flex-end;
+    padding: 14px;
+  }
+
+  .swatch-info {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    line-height: 2;
+  }
+
+  /* ─── FAVICON STRIP ─── */
+  .fav-strip {
+    display: flex;
+    gap: 36px;
+    align-items: flex-end;
+    padding: 52px 48px;
+    background: var(--ink-mid);
+    flex-wrap: wrap;
+  }
+
+  .fav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 11px;
+  }
+
+  .fav-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.1em;
+  }
+
+  .fav-divider {
+    width: 1px; height: 72px;
+    background: rgba(255,255,255,0.08);
+    align-self: center;
+    margin: 0 8px;
+  }
+
+  .fav-section-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--amber);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    align-self: center;
+  }
+
+  /* ─── VERSUS ─── */
+  .versus {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+  }
+
+  .v-col { padding: 44px 40px; }
+  .v-them { background: #1F2937; }
+  .v-us   { background: #111827; border-left: 3px solid var(--amber); }
+
+  .v-col h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .v-us h4 { color: var(--amber); }
+
+  .v-col ul { list-style: none; }
+
+  .v-col ul li {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.5);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-weight: 400;
+  }
+
+  .v-us ul li { color: rgba(255,255,255,0.82); font-weight: 500; }
+
+  /* ─── SYSTEM TABLE ─── */
+  .sys-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+  }
+
+  .sys-col {
+    padding: 40px 32px;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .sys-col-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .sys-col p {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.9;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--ink);
+    padding: 40px 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--rule-amber);
+  }
+
+  .footer-l {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.18);
+    letter-spacing: 0.09em;
+    line-height: 2.1;
+  }
+
+  .footer-r {
+    font-family: 'Cormorant Garant', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--amber);
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+  }
+
+  .amber-rule {
+    height: 1px;
+    background: var(--amber);
+    opacity: 0.22;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ COVER ══════════════════ -->
+<div class="cover">
+  <div>
+    <div class="cover-eyebrow">LawBey — Bahamian Legal Research AI</div>
+    <h1>Identity<br><em>System</em></h1>
+    <div class="cover-descriptor">
+      beta.lawbey.com · Nassau, The Bahamas<br>
+      Three Concept Directions · v1.0<br>
+      Retrieval-Grounded · Accessible · Sovereign
+    </div>
+  </div>
+  <div class="cover-meta">
+    <strong>Statute Lines Mark</strong>
+    Primary · RAG concept
+    <br>
+    <strong>Pillar Arc</strong>
+    Access / Empowerment
+    <br>
+    <strong>LB Monogram</strong>
+    Icon · Favicon · App
+  </div>
+</div>
+
+<div class="amber-rule"></div>
+
+
+<!-- ══════════════════ DESIGN RATIONALE ══════════════════ -->
+<div class="section s-wash" style="padding: 56px 72px;">
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 64px;">
+    <div>
+      <div class="eyebrow" style="margin-bottom: 16px;">The Font Logic</div>
+      <p style="font-family: 'Cormorant Garant', serif; font-size: 28px; color: var(--ink); font-weight: 600; line-height: 1.2; margin-bottom: 12px;">Cormorant<br>Garant</p>
+      <p style="font-size: 12.5px; color: var(--ink-light); line-height: 1.8;">Classical serif. The weight of written law, printed statutes, court decisions. Legal authority in typographic form.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom: 16px;">Paired With</div>
+      <p style="font-family: 'DM Mono', monospace; font-size: 22px; color: var(--ink); font-weight: 500; line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.01em;">DM Mono</p>
+      <p style="font-size: 12.5px; color: var(--ink-light); line-height: 1.8;">Monospaced. Retrieval, code, citations, data. The AI layer. The contrast between these two fonts tells the entire brand story.</p>
+    </div>
+    <div>
+      <div class="eyebrow" style="margin-bottom: 16px;">The Amber Rule</div>
+      <p style="font-size: 12.5px; color: var(--ink-light); line-height: 1.8; margin-top: 8px;">Amber is not gold. Gold is institutional. Amber is <em>warm</em> — accessible, Bahamian, sunlit. It marks the retrieved truth. The one line that matters, pulled from the statute.</p>
+      <div style="height: 3px; background: var(--amber); width: 80px; margin-top: 20px;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="amber-rule"></div>
+
+
+<!-- ══════════════════ OPTION 01: STATUTE LINES ══════════════════ -->
+<div class="section s-white">
+  <div class="eyebrow">Concept 01 — Primary Recommendation</div>
+  <div class="section-title">The Statute Lines Mark</div>
+
+  <!-- Symbol variants -->
+  <div class="grid-3">
+    <!-- Light bg -->
+    <div class="cell c-parch">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- 7 horizontal lines representing lines of statute text -->
+        <!-- Lines vary in width suggesting natural text, not perfect bars -->
+        <!-- Line 1 -->
+        <line x1="8" y1="14" x2="68" y2="14" stroke="#111827" stroke-width="3.5" stroke-linecap="round" opacity="0.15"/>
+        <!-- Line 2 -->
+        <line x1="8" y1="24" x2="72" y2="24" stroke="#111827" stroke-width="3.5" stroke-linecap="round" opacity="0.15"/>
+        <!-- Line 3 — THE RETRIEVED LINE: amber, slightly extended, full opacity -->
+        <line x1="8" y1="34" x2="76" y2="34" stroke="#C8922A" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- Retrieval cursor at right end -->
+        <circle cx="76" cy="34" r="4" fill="#C8922A"/>
+        <circle cx="76" cy="34" r="7" fill="none" stroke="#C8922A" stroke-width="1" opacity="0.35"/>
+        <!-- Lines below, fading back -->
+        <line x1="8" y1="44" x2="60" y2="44" stroke="#111827" stroke-width="3.5" stroke-linecap="round" opacity="0.15"/>
+        <!-- Line 5 -->
+        <line x1="8" y1="54" x2="66" y2="54" stroke="#111827" stroke-width="3.5" stroke-linecap="round" opacity="0.10"/>
+        <!-- Line 6 -->
+        <line x1="8" y1="64" x2="52" y2="64" stroke="#111827" stroke-width="3.5" stroke-linecap="round" opacity="0.08"/>
+      </svg>
+      <div class="tag tag-l">Primary · Parchment</div>
+    </div>
+
+    <!-- Dark bg -->
+    <div class="cell c-ink">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="8" y1="14" x2="68" y2="14" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.15"/>
+        <line x1="8" y1="24" x2="72" y2="24" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.15"/>
+        <line x1="8" y1="34" x2="76" y2="34" stroke="#E0AE52" stroke-width="4.5" stroke-linecap="round"/>
+        <circle cx="76" cy="34" r="4" fill="#E0AE52"/>
+        <circle cx="76" cy="34" r="7" fill="none" stroke="#E0AE52" stroke-width="1" opacity="0.35"/>
+        <line x1="8" y1="44" x2="60" y2="44" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.15"/>
+        <line x1="8" y1="54" x2="66" y2="54" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.10"/>
+        <line x1="8" y1="64" x2="52" y2="64" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.07"/>
+      </svg>
+      <div class="tag tag-d">Inverted · Dark</div>
+    </div>
+
+    <!-- Amber bg -->
+    <div class="cell c-amber">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="8" y1="14" x2="68" y2="14" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.3"/>
+        <line x1="8" y1="24" x2="72" y2="24" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.3"/>
+        <line x1="8" y1="34" x2="76" y2="34" stroke="white" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="76" cy="34" r="4" fill="white"/>
+        <circle cx="76" cy="34" r="7" fill="none" stroke="white" stroke-width="1" opacity="0.4"/>
+        <line x1="8" y1="44" x2="60" y2="44" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.3"/>
+        <line x1="8" y1="54" x2="66" y2="54" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.2"/>
+        <line x1="8" y1="64" x2="52" y2="64" stroke="white" stroke-width="3.5" stroke-linecap="round" opacity="0.15"/>
+      </svg>
+      <div class="tag tag-d">On Amber</div>
+    </div>
+  </div>
+
+  <!-- Full lockups -->
+  <div class="grid-3" style="margin-bottom: 0;">
+    <!-- Light lockup -->
+    <div class="cell c-white" style="padding: 40px 28px; min-height: 160px; align-items: flex-start;">
+      <svg width="300" height="72" viewBox="0 0 300 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Mark scaled to ~48px height -->
+        <line x1="4" y1="10" x2="44" y2="10" stroke="#111827" stroke-width="2.5" stroke-linecap="round" opacity="0.15"/>
+        <line x1="4" y1="18" x2="46" y2="18" stroke="#111827" stroke-width="2.5" stroke-linecap="round" opacity="0.15"/>
+        <line x1="4" y1="26" x2="48" y2="26" stroke="#C8922A" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="48" cy="26" r="3" fill="#C8922A"/>
+        <circle cx="48" cy="26" r="5.5" fill="none" stroke="#C8922A" stroke-width="1" opacity="0.3"/>
+        <line x1="4" y1="34" x2="38" y2="34" stroke="#111827" stroke-width="2.5" stroke-linecap="round" opacity="0.15"/>
+        <line x1="4" y1="42" x2="42" y2="42" stroke="#111827" stroke-width="2.5" stroke-linecap="round" opacity="0.1"/>
+        <!-- Wordmark -->
+        <text x="64" y="34" font-family="'Cormorant Garant', serif" font-size="34" font-weight="600" fill="#111827" letter-spacing="-0.5">Law</text>
+        <text x="114" y="34" font-family="'Cormorant Garant', serif" font-size="34" font-weight="400" font-style="italic" fill="#C8922A" letter-spacing="-0.5">Bey</text>
+        <!-- Subline -->
+        <text x="64" y="50" font-family="'DM Mono', monospace" font-size="7.5" fill="#6B7280" letter-spacing="2">BAHAMIAN LEGAL RESEARCH</text>
+      </svg>
+      <div class="tag tag-l">Full Lockup · Light</div>
+    </div>
+
+    <!-- Dark lockup -->
+    <div class="cell c-ink" style="padding: 40px 28px; min-height: 160px; align-items: flex-start;">
+      <svg width="300" height="72" viewBox="0 0 300 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="4" y1="10" x2="44" y2="10" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.18"/>
+        <line x1="4" y1="18" x2="46" y2="18" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.18"/>
+        <line x1="4" y1="26" x2="48" y2="26" stroke="#E0AE52" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="48" cy="26" r="3" fill="#E0AE52"/>
+        <circle cx="48" cy="26" r="5.5" fill="none" stroke="#E0AE52" stroke-width="1" opacity="0.35"/>
+        <line x1="4" y1="34" x2="38" y2="34" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.18"/>
+        <line x1="4" y1="42" x2="42" y2="42" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.1"/>
+        <text x="64" y="34" font-family="'Cormorant Garant', serif" font-size="34" font-weight="600" fill="white" letter-spacing="-0.5">Law</text>
+        <text x="114" y="34" font-family="'Cormorant Garant', serif" font-size="34" font-weight="400" font-style="italic" fill="#E0AE52" letter-spacing="-0.5">Bey</text>
+        <text x="64" y="50" font-family="'DM Mono', monospace" font-size="7.5" fill="rgba(255,255,255,0.3)" letter-spacing="2">BAHAMIAN LEGAL RESEARCH</text>
+      </svg>
+      <div class="tag tag-d">Full Lockup · Dark</div>
+    </div>
+
+    <!-- Stacked -->
+    <div class="cell c-parch" style="padding: 40px 28px; min-height: 160px;">
+      <svg width="160" height="110" viewBox="0 0 160 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Centered mark -->
+        <line x1="32" y1="10" x2="92" y2="10" stroke="#111827" stroke-width="2.5" stroke-linecap="round" opacity="0.15"/>
+        <line x1="32" y1="18" x2="96" y2="18" stroke="#111827" stroke-width="2.5" stroke-linecap="round" opacity="0.15"/>
+        <line x1="32" y1="26" x2="100" y2="26" stroke="#C8922A" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="100" cy="26" r="3" fill="#C8922A"/>
+        <circle cx="100" cy="26" r="5.5" fill="none" stroke="#C8922A" stroke-width="1" opacity="0.3"/>
+        <line x1="32" y1="34" x2="82" y2="34" stroke="#111827" stroke-width="2.5" stroke-linecap="round" opacity="0.15"/>
+        <line x1="32" y1="42" x2="88" y2="42" stroke="#111827" stroke-width="2.5" stroke-linecap="round" opacity="0.10"/>
+
+        <!-- Stacked wordmark -->
+        <text x="80" y="72" font-family="'Cormorant Garant', serif" font-size="40" font-weight="600" fill="#111827" text-anchor="middle" letter-spacing="1">Law<tspan font-style="italic" fill="#C8922A">Bey</tspan></text>
+        <!-- Amber rule -->
+        <line x1="40" y1="82" x2="120" y2="82" stroke="#C8922A" stroke-width="0.8" opacity="0.4"/>
+        <text x="80" y="96" font-family="'DM Mono', monospace" font-size="6.5" fill="#6B7280" text-anchor="middle" letter-spacing="2">NASSAU · BAHAMAS</text>
+      </svg>
+      <div class="tag tag-l">Stacked + Origin</div>
+    </div>
+  </div>
+
+  <div class="annot">
+    <div></div>
+    <div class="annot-body">
+      <h3>The Statute Lines Mark</h3>
+      <p>Six horizontal lines representing lines of legal text — a statute, a judgment, a contract. Five lines sit at reduced opacity. The third line is amber, extended, terminated with a filled circle. That is the retrieved law.</p>
+      <p>The retrieval cursor (the circle) is the only geometric element in the system. It marks the moment the AI finds the answer. Everything else is context.</p>
+      <ul class="spec-list">
+        <li>Lines 1,2,4,5,6: 15% opacity — the unread corpus</li>
+        <li>Line 3: Amber, 100% — the retrieved statute</li>
+        <li>Cursor: filled circle + halo ring at line terminus</li>
+        <li>Wordmark: Cormorant 600 "Law" + italic 400 "Bey"</li>
+        <li>Sub: DM Mono, all caps, tracking +2px</li>
+        <li>"Bey" italic signals accessibility, not formality</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="amber-rule"></div>
+
+
+<!-- ══════════════════ OPTION 02: PILLAR ARC ══════════════════ -->
+<div class="section s-ink">
+  <div class="eyebrow">Concept 02 — Access / Empowerment Surface</div>
+  <div class="section-title">The Pillar Arc</div>
+
+  <div class="grid-3">
+    <!-- Light -->
+    <div class="cell c-parch">
+      <svg width="80" height="96" viewBox="0 0 80 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Single courthouse pillar: base + shaft + capital -->
+        <!-- Base -->
+        <rect x="16" y="82" width="48" height="8" rx="2" fill="#111827"/>
+        <!-- Step above base -->
+        <rect x="22" y="74" width="36" height="8" rx="2" fill="#111827"/>
+        <!-- Shaft -->
+        <rect x="28" y="22" width="24" height="52" rx="2" fill="#111827"/>
+        <!-- Capital (top block) -->
+        <rect x="20" y="14" width="40" height="8" rx="2" fill="#111827"/>
+
+        <!-- Arc of access opening outward from top -->
+        <!-- Full semicircle above the capital -->
+        <path d="M 10 18 A 30 30 0 0 1 70 18" stroke="#C8922A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- Tick marks on arc — retrieval pulse -->
+        <line x1="10" y1="18" x2="7" y2="15" stroke="#C8922A" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+        <line x1="40" y1="0" x2="40" y2="-4" stroke="#C8922A" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+        <line x1="70" y1="18" x2="73" y2="15" stroke="#C8922A" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+        <!-- Center dot at apex -->
+        <circle cx="40" cy="2" r="3.5" fill="#C8922A"/>
+      </svg>
+      <div class="tag tag-l">Primary · Light</div>
+    </div>
+
+    <!-- Dark -->
+    <div class="cell c-ink2">
+      <svg width="80" height="96" viewBox="0 0 80 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="16" y="82" width="48" height="8" rx="2" fill="white"/>
+        <rect x="22" y="74" width="36" height="8" rx="2" fill="white"/>
+        <rect x="28" y="22" width="24" height="52" rx="2" fill="white"/>
+        <rect x="20" y="14" width="40" height="8" rx="2" fill="white"/>
+        <path d="M 10 18 A 30 30 0 0 1 70 18" stroke="#E0AE52" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <line x1="10" y1="18" x2="7" y2="15" stroke="#E0AE52" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+        <line x1="40" y1="0" x2="40" y2="-4" stroke="#E0AE52" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+        <line x1="70" y1="18" x2="73" y2="15" stroke="#E0AE52" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+        <circle cx="40" cy="2" r="3.5" fill="#E0AE52"/>
+      </svg>
+      <div class="tag tag-d">Inverted · Dark</div>
+    </div>
+
+    <!-- Teal -->
+    <div class="cell c-teal">
+      <svg width="80" height="96" viewBox="0 0 80 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="16" y="82" width="48" height="8" rx="2" fill="white"/>
+        <rect x="22" y="74" width="36" height="8" rx="2" fill="white"/>
+        <rect x="28" y="22" width="24" height="52" rx="2" fill="white"/>
+        <rect x="20" y="14" width="40" height="8" rx="2" fill="white"/>
+        <path d="M 10 18 A 30 30 0 0 1 70 18" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.9"/>
+        <line x1="40" y1="0" x2="40" y2="-4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="40" cy="2" r="3.5" fill="white"/>
+      </svg>
+      <div class="tag tag-d">On Teal</div>
+    </div>
+  </div>
+
+  <!-- Full lockup row -->
+  <div class="grid-3" style="margin-bottom: 0;">
+    <div class="cell c-white" style="min-height: 160px; padding: 36px 28px; align-items: flex-start;">
+      <svg width="300" height="72" viewBox="0 0 300 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- small pillar -->
+        <rect x="0" y="58" width="36" height="6" rx="1.5" fill="#111827"/>
+        <rect x="4" y="52" width="28" height="6" rx="1.5" fill="#111827"/>
+        <rect x="8" y="16" width="20" height="36" rx="1.5" fill="#111827"/>
+        <rect x="2" y="10" width="32" height="6" rx="1.5" fill="#111827"/>
+        <path d="M -4 13 A 22 22 0 0 1 40 13" stroke="#C8922A" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+        <circle cx="18" cy="-2" r="2.8" fill="#C8922A"/>
+        <!-- Wordmark -->
+        <text x="52" y="38" font-family="'Cormorant Garant', serif" font-size="34" font-weight="600" fill="#111827" letter-spacing="-0.5">Law</text>
+        <text x="102" y="38" font-family="'Cormorant Garant', serif" font-size="34" font-weight="400" font-style="italic" fill="#C8922A" letter-spacing="-0.5">Bey</text>
+        <text x="52" y="54" font-family="'DM Mono', monospace" font-size="7.5" fill="#6B7280" letter-spacing="2">BAHAMIAN LEGAL RESEARCH</text>
+      </svg>
+      <div class="tag tag-l">Full Lockup · Light</div>
+    </div>
+
+    <div class="cell c-ink2" style="min-height: 160px; padding: 36px 28px; align-items: flex-start;">
+      <svg width="300" height="72" viewBox="0 0 300 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="58" width="36" height="6" rx="1.5" fill="white"/>
+        <rect x="4" y="52" width="28" height="6" rx="1.5" fill="white"/>
+        <rect x="8" y="16" width="20" height="36" rx="1.5" fill="white"/>
+        <rect x="2" y="10" width="32" height="6" rx="1.5" fill="white"/>
+        <path d="M -4 13 A 22 22 0 0 1 40 13" stroke="#E0AE52" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+        <circle cx="18" cy="-2" r="2.8" fill="#E0AE52"/>
+        <text x="52" y="38" font-family="'Cormorant Garant', serif" font-size="34" font-weight="600" fill="white" letter-spacing="-0.5">Law</text>
+        <text x="102" y="38" font-family="'Cormorant Garant', serif" font-size="34" font-weight="400" font-style="italic" fill="#E0AE52" letter-spacing="-0.5">Bey</text>
+        <text x="52" y="54" font-family="'DM Mono', monospace" font-size="7.5" fill="rgba(255,255,255,0.3)" letter-spacing="2">BAHAMIAN LEGAL RESEARCH</text>
+      </svg>
+      <div class="tag tag-d">Full Lockup · Dark</div>
+    </div>
+
+    <div class="cell c-pale" style="min-height: 160px; padding: 36px 28px;">
+      <div style="font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-light); line-height: 2; letter-spacing: 0.05em; text-align: left;">
+        <span style="color: var(--amber);">Suitable for:</span><br>
+        Legal aid surfaces<br>
+        Government partnership<br>
+        Court-adjacent comms<br>
+        Educational materials
+      </div>
+      <div class="tag tag-l">Context Note</div>
+    </div>
+  </div>
+
+  <div class="annot">
+    <div></div>
+    <div class="annot-body">
+      <h3>The Pillar Arc</h3>
+      <p>A single courthouse column — base, steps, shaft, capital — abstracted to rectangles. Above it, a semicircular arc opens outward, terminating in tick marks and a central apex dot.</p>
+      <p>The column is the law, fixed and immovable. The arc is access — knowledge radiating outward. Together they say: the law was always there. LawBey opens it up.</p>
+      <ul class="spec-list">
+        <li>Column: 4 stacked rects, no curves — architectural</li>
+        <li>Arc: SVG path, 30px radius from column top</li>
+        <li>Three tick marks: left, apex, right</li>
+        <li>Apex dot: amber filled circle — the answer</li>
+        <li>Best for: legal aid, education, print, signage</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="amber-rule"></div>
+
+
+<!-- ══════════════════ OPTION 03: LB MONOGRAM ══════════════════ -->
+<div class="section s-parchment">
+  <div class="eyebrow">Concept 03 — Icon · Favicon · App</div>
+  <div class="section-title">The LB Monogram</div>
+
+  <div class="grid-3">
+    <!-- Light -->
+    <div class="cell c-white">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- L: bracket form — vertical spine + horizontal foot -->
+        <rect x="8" y="8" width="8" height="64" rx="2" fill="#111827"/>
+        <rect x="8" y="64" width="24" height="8" rx="2" fill="#111827"/>
+
+        <!-- B: two document pages stacked, sharing left edge spine  -->
+        <!-- B spine -->
+        <rect x="40" y="8" width="8" height="64" rx="2" fill="#111827"/>
+        <!-- B top page: rect with right rounding -->
+        <rect x="48" y="8" width="20" height="28" rx="3" fill="none" stroke="#111827" stroke-width="3"/>
+        <!-- B top page fill -->
+        <rect x="51" y="11" width="14" height="22" rx="1.5" fill="#111827" opacity="0.1"/>
+        <!-- B bottom page -->
+        <rect x="48" y="40" width="22" height="28" rx="3" fill="none" stroke="#111827" stroke-width="3"/>
+        <rect x="51" y="43" width="16" height="22" rx="1.5" fill="#111827" opacity="0.1"/>
+
+        <!-- Amber accent: tiny lines inside B pages suggesting retrieved text -->
+        <line x1="53" y1="17" x2="63" y2="17" stroke="#C8922A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="53" y1="22" x2="61" y2="22" stroke="#C8922A" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+
+        <line x1="53" y1="49" x2="65" y2="49" stroke="#C8922A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="53" y1="54" x2="62" y2="54" stroke="#C8922A" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+      <div class="tag tag-l">LB Monogram · Light</div>
+    </div>
+
+    <!-- Dark -->
+    <div class="cell c-ink">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="8" width="8" height="64" rx="2" fill="white"/>
+        <rect x="8" y="64" width="24" height="8" rx="2" fill="white"/>
+        <rect x="40" y="8" width="8" height="64" rx="2" fill="white"/>
+        <rect x="48" y="8" width="20" height="28" rx="3" fill="none" stroke="white" stroke-width="3"/>
+        <rect x="51" y="11" width="14" height="22" rx="1.5" fill="white" opacity="0.08"/>
+        <rect x="48" y="40" width="22" height="28" rx="3" fill="none" stroke="white" stroke-width="3"/>
+        <rect x="51" y="43" width="16" height="22" rx="1.5" fill="white" opacity="0.08"/>
+        <line x1="53" y1="17" x2="63" y2="17" stroke="#E0AE52" stroke-width="2" stroke-linecap="round"/>
+        <line x1="53" y1="22" x2="61" y2="22" stroke="#E0AE52" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+        <line x1="53" y1="49" x2="65" y2="49" stroke="#E0AE52" stroke-width="2" stroke-linecap="round"/>
+        <line x1="53" y1="54" x2="62" y2="54" stroke="#E0AE52" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+      <div class="tag tag-d">LB Monogram · Dark</div>
+    </div>
+
+    <!-- Square app icon -->
+    <div class="cell c-stone">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="80" height="80" rx="18" fill="#111827"/>
+        <!-- L -->
+        <rect x="8" y="10" width="7" height="58" rx="1.5" fill="white"/>
+        <rect x="8" y="61" width="20" height="7" rx="1.5" fill="white"/>
+        <!-- B -->
+        <rect x="36" y="10" width="7" height="58" rx="1.5" fill="white"/>
+        <rect x="43" y="10" width="17" height="25" rx="2.5" fill="none" stroke="white" stroke-width="2.5"/>
+        <rect x="43" y="38" width="19" height="25" rx="2.5" fill="none" stroke="white" stroke-width="2.5"/>
+        <!-- amber text lines -->
+        <line x1="47" y1="18" x2="57" y2="18" stroke="#C8922A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="47" y1="46" x2="59" y2="46" stroke="#C8922A" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="tag tag-l">App Icon</div>
+    </div>
+  </div>
+
+  <!-- Favicon scale tests -->
+  <div class="fav-strip" style="margin-top: 3px;">
+    <div class="fav-section-lbl">LB Mark Scale</div>
+
+    <div class="fav-item">
+      <svg width="64" height="64" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="18" fill="#111827"/>
+        <rect x="8" y="10" width="7" height="58" rx="1.5" fill="white"/>
+        <rect x="8" y="61" width="20" height="7" rx="1.5" fill="white"/>
+        <rect x="36" y="10" width="7" height="58" rx="1.5" fill="white"/>
+        <rect x="43" y="10" width="17" height="25" rx="2.5" fill="none" stroke="white" stroke-width="2.5"/>
+        <rect x="43" y="38" width="19" height="25" rx="2.5" fill="none" stroke="white" stroke-width="2.5"/>
+        <line x1="47" y1="18" x2="57" y2="18" stroke="#C8922A" stroke-width="2" stroke-linecap="round"/>
+        <line x1="47" y1="46" x2="59" y2="46" stroke="#C8922A" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="fav-lbl">64px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="48" height="48" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="18" fill="#111827"/>
+        <rect x="8" y="10" width="7" height="58" rx="1.5" fill="white"/>
+        <rect x="8" y="61" width="20" height="7" rx="1.5" fill="white"/>
+        <rect x="36" y="10" width="7" height="58" rx="1.5" fill="white"/>
+        <rect x="43" y="10" width="17" height="25" rx="2.5" fill="none" stroke="white" stroke-width="2.5"/>
+        <rect x="43" y="38" width="19" height="25" rx="2.5" fill="none" stroke="white" stroke-width="2.5"/>
+        <line x1="47" y1="18" x2="57" y2="18" stroke="#C8922A" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="47" y1="46" x2="59" y2="46" stroke="#C8922A" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <div class="fav-lbl">48px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="32" height="32" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="18" fill="#111827"/>
+        <rect x="8" y="10" width="7" height="58" rx="1.5" fill="white"/>
+        <rect x="8" y="61" width="20" height="7" rx="1.5" fill="white"/>
+        <rect x="36" y="10" width="7" height="58" rx="1.5" fill="white"/>
+        <rect x="43" y="10" width="17" height="25" rx="2.5" fill="none" stroke="white" stroke-width="3"/>
+        <rect x="43" y="38" width="19" height="25" rx="2.5" fill="none" stroke="white" stroke-width="3"/>
+        <line x1="47" y1="18" x2="57" y2="18" stroke="#C8922A" stroke-width="3" stroke-linecap="round"/>
+        <line x1="47" y1="46" x2="59" y2="46" stroke="#C8922A" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="fav-lbl">32px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="16" height="16" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="14" fill="#111827"/>
+        <!-- Simplified: L + B outline only -->
+        <rect x="8" y="10" width="9" height="60" rx="2" fill="white"/>
+        <rect x="8" y="62" width="24" height="8" rx="2" fill="white"/>
+        <rect x="38" y="10" width="9" height="60" rx="2" fill="white"/>
+        <rect x="47" y="10" width="24" height="28" rx="3" fill="none" stroke="white" stroke-width="4"/>
+        <rect x="47" y="42" width="24" height="28" rx="3" fill="none" stroke="white" stroke-width="4"/>
+      </svg>
+      <div class="fav-lbl">16px</div>
+    </div>
+
+    <div class="fav-divider"></div>
+
+    <!-- Statute Lines mark at small sizes -->
+    <div class="fav-section-lbl">Statute Mark Scale</div>
+
+    <div class="fav-item">
+      <svg width="48" height="48" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="18" fill="#111827"/>
+        <line x1="12" y1="22" x2="62" y2="22" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.2"/>
+        <line x1="12" y1="33" x2="64" y2="33" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.2"/>
+        <line x1="12" y1="44" x2="66" y2="44" stroke="#E0AE52" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="66" cy="44" r="5" fill="#E0AE52"/>
+        <line x1="12" y1="55" x2="56" y2="55" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.2"/>
+        <line x1="12" y1="66" x2="60" y2="66" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.12"/>
+      </svg>
+      <div class="fav-lbl">48px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="32" height="32" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="18" fill="#111827"/>
+        <line x1="12" y1="22" x2="62" y2="22" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.2"/>
+        <line x1="12" y1="33" x2="64" y2="33" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.2"/>
+        <line x1="12" y1="44" x2="66" y2="44" stroke="#E0AE52" stroke-width="5.5" stroke-linecap="round"/>
+        <circle cx="66" cy="44" r="5.5" fill="#E0AE52"/>
+        <line x1="12" y1="55" x2="56" y2="55" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.2"/>
+      </svg>
+      <div class="fav-lbl">32px</div>
+    </div>
+
+    <div class="fav-item">
+      <svg width="16" height="16" viewBox="0 0 80 80" fill="none">
+        <rect width="80" height="80" rx="14" fill="#111827"/>
+        <line x1="10" y1="25" x2="64" y2="25" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.22"/>
+        <line x1="10" y1="42" x2="66" y2="42" stroke="#E0AE52" stroke-width="8" stroke-linecap="round"/>
+        <line x1="10" y1="60" x2="60" y2="60" stroke="white" stroke-width="6" stroke-linecap="round" opacity="0.22"/>
+      </svg>
+      <div class="fav-lbl">16px</div>
+    </div>
+  </div>
+
+  <div class="annot" style="margin-top: 48px;">
+    <div></div>
+    <div class="annot-body">
+      <h3>LB Monogram</h3>
+      <p>L is constructed as a bracket — vertical spine plus right-angle foot. It reads as the letter, as a reference bracket [, and as an open door. B is two document pages sharing a left spine, representing indexed sources.</p>
+      <p>Amber lines inside each B page are the retrieved content. At 16px they vanish and only the structural letterforms remain — which is the correct behaviour.</p>
+      <ul class="spec-list">
+        <li>L: 2 rects, right-angle only — no diagonal</li>
+        <li>B: shared spine + 2 outlined page rects</li>
+        <li>Amber text lines: 2 per page, drop at 24px</li>
+        <li>At 16px: L + B outlines only, still readable</li>
+        <li>Statute Mark reads better at 16px — test both</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="amber-rule"></div>
+
+
+<!-- ══════════════════ WORDMARK ANATOMY ══════════════════ -->
+<div class="section s-white">
+  <div class="eyebrow">Typography System</div>
+  <div class="section-title">Wordmark Construction</div>
+
+  <!-- Hero wordmark -->
+  <div style="background: var(--parchment); padding: 72px 56px; margin-bottom: 3px; display: flex; align-items: baseline; gap: 0;">
+    <svg width="540" height="90" viewBox="0 0 540 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="72" font-family="'Cormorant Garant', serif" font-size="80" font-weight="600" fill="#111827" letter-spacing="-2">Law</text>
+      <text x="180" y="72" font-family="'Cormorant Garant', serif" font-size="80" font-weight="400" font-style="italic" fill="#C8922A" letter-spacing="-2">Bey</text>
+    </svg>
+  </div>
+
+  <!-- Wordmark variants -->
+  <div class="grid-2">
+    <!-- Tight compact -->
+    <div style="background: var(--white); padding: 48px 40px;">
+      <div class="eyebrow" style="margin-bottom: 20px;">Compact — No Subline</div>
+      <svg width="280" height="56" viewBox="0 0 280 56" fill="none">
+        <text x="0" y="44" font-family="'Cormorant Garant', serif" font-size="52" font-weight="600" fill="#111827" letter-spacing="-1">Law</text>
+        <text x="112" y="44" font-family="'Cormorant Garant', serif" font-size="52" font-weight="400" font-style="italic" fill="#C8922A" letter-spacing="-1">Bey</text>
+      </svg>
+    </div>
+
+    <!-- With DM Mono subline -->
+    <div style="background: var(--parchment); padding: 48px 40px;">
+      <div class="eyebrow" style="margin-bottom: 20px;">With Mono Subline</div>
+      <svg width="280" height="72" viewBox="0 0 280 72" fill="none">
+        <text x="0" y="44" font-family="'Cormorant Garant', serif" font-size="52" font-weight="600" fill="#111827" letter-spacing="-1">Law</text>
+        <text x="112" y="44" font-family="'Cormorant Garant', serif" font-size="52" font-weight="400" font-style="italic" fill="#C8922A" letter-spacing="-1">Bey</text>
+        <line x1="0" y1="54" x2="220" y2="54" stroke="#C8922A" stroke-width="0.75" opacity="0.4"/>
+        <text x="0" y="66" font-family="'DM Mono', monospace" font-size="9" fill="#6B7280" letter-spacing="2.5">BAHAMIAN LEGAL RESEARCH · NASSAU</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Pro variant -->
+  <div style="background: var(--ink); padding: 48px 40px; margin-top: 3px;">
+    <div class="eyebrow" style="margin-bottom: 20px;">Pro Variant</div>
+    <svg width="380" height="72" viewBox="0 0 380 72" fill="none">
+      <text x="0" y="44" font-family="'Cormorant Garant', serif" font-size="52" font-weight="600" fill="white" letter-spacing="-1">Law</text>
+      <text x="112" y="44" font-family="'Cormorant Garant', serif" font-size="52" font-weight="400" font-style="italic" fill="#E0AE52" letter-spacing="-1">Bey</text>
+      <!-- Pro badge -->
+      <rect x="234" y="10" width="42" height="22" rx="4" fill="#C8922A"/>
+      <text x="255" y="25" font-family="'DM Mono', monospace" font-size="10" fill="white" text-anchor="middle" letter-spacing="1.5" font-weight="500">PRO</text>
+      <text x="0" y="60" font-family="'DM Mono', monospace" font-size="8" fill="rgba(255,255,255,0.28)" letter-spacing="2.5">PROFESSIONAL LEGAL RESEARCH · $39/MO</text>
+    </svg>
+  </div>
+
+  <!-- Typography rules -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; margin-top: 3px;">
+    <div style="background: var(--amber-wash); padding: 32px;">
+      <div style="font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--amber); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px;">Law</div>
+      <p style="font-size: 12.5px; color: var(--ink-light); line-height: 1.8;">Cormorant Garant 600 (Semi-Bold). Upright. Never italic. Represents the law itself — fixed, structural, unmovable.</p>
+    </div>
+    <div style="background: var(--amber-wash); padding: 32px;">
+      <div style="font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--amber); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px;">Bey</div>
+      <p style="font-size: 12.5px; color: var(--ink-light); line-height: 1.8;">Cormorant Garant 400 Italic. Amber. Represents the user, the access, the living application of the law. Always in motion, always amber.</p>
+    </div>
+    <div style="background: var(--amber-wash); padding: 32px;">
+      <div style="font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--amber); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px;">Subline</div>
+      <p style="font-size: 12.5px; color: var(--ink-light); line-height: 1.8;">DM Mono 400 all-caps. Tracking +2.5px. Stone (#6B7280). The AI/data layer. Only appears when space allows — never crowded.</p>
+    </div>
+  </div>
+</div>
+
+<div class="amber-rule"></div>
+
+
+<!-- ══════════════════ COLOR ══════════════════ -->
+<div class="section s-ink">
+  <div class="eyebrow">Brand Foundation</div>
+  <div class="section-title">Colour System</div>
+
+  <div class="swatch-row" style="margin-bottom: 3px;">
+    <div class="swatch" style="background: #111827;">
+      <div class="swatch-info" style="color: rgba(255,255,255,0.65);">
+        Deep Ink<br><span style="opacity:.45">#111827</span><br><span style="opacity:.45">Primary</span>
+      </div>
+    </div>
+    <div class="swatch" style="background: #C8922A;">
+      <div class="swatch-info" style="color: rgba(255,255,255,0.85);">
+        Amber<br><span style="opacity:.55">#C8922A</span><br><span style="opacity:.55">Retrieval</span>
+      </div>
+    </div>
+    <div class="swatch" style="background: #E0AE52;">
+      <div class="swatch-info" style="color: rgba(255,255,255,0.85);">
+        Amber Light<br><span style="opacity:.55">#E0AE52</span><br><span style="opacity:.55">On dark</span>
+      </div>
+    </div>
+    <div class="swatch" style="background: #1B6068;">
+      <div class="swatch-info" style="color: rgba(255,255,255,0.7);">
+        Restrained Teal<br><span style="opacity:.45">#1B6068</span><br><span style="opacity:.45">Accent</span>
+      </div>
+    </div>
+    <div class="swatch" style="background: #F0EBE1; border: 1px solid rgba(0,0,0,0.06);">
+      <div class="swatch-info" style="color: rgba(17,24,39,0.5);">
+        Parchment<br><span style="opacity:.6">#F0EBE1</span><br><span style="opacity:.6">Light BG</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="background: rgba(200,146,42,0.08); border: 1px solid rgba(200,146,42,0.2); padding: 32px 40px; margin-top: 0;">
+    <div style="font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--amber); text-transform: uppercase; margin-bottom: 14px;">Amber Protocol — The Retrieval Colour</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
+      <p style="font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.8;">Amber appears only on: the retrieved line in the mark, "Bey" in the wordmark, the cursor circle, the Pro badge, and thin amber rules that divide sections. It does not appear on body text or navigation.</p>
+      <p style="font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.8;">Amber communicates truth surfaced from text. It is not decorative. Every amber element in the system answers the same question: "what did the retrieval find?" Keep it sparse. Sparse amber earns trust.</p>
+    </div>
+  </div>
+</div>
+
+<div class="amber-rule"></div>
+
+
+<!-- ══════════════════ STRATEGIC DISTINCTION ══════════════════ -->
+<div class="section s-ink-mid">
+  <div class="eyebrow">Market Position</div>
+  <div class="section-title">What LawBey Must Not Look Like</div>
+
+  <div class="versus">
+    <div class="v-col v-them">
+      <h4>Every Other Legal AI Tool</h4>
+      <ul>
+        <li>Dark blue gradients, SaaS-corporate</li>
+        <li>Scale or gavel icon — immediately dated</li>
+        <li>Globe imagery — signals foreign ownership</li>
+        <li>Confident answers, invisible sourcing</li>
+        <li>Built for US / UK law, adapted for others</li>
+        <li>Hallucinated precedent, no citations</li>
+        <li>Priced for BigLaw budgets</li>
+        <li>Feels like a product, not a resource</li>
+      </ul>
+    </div>
+    <div class="v-col v-us">
+      <h4>LawBey</h4>
+      <ul>
+        <li>Deep ink + amber — authority meets warmth</li>
+        <li>Statute Lines — grounded in actual text</li>
+        <li>Nassau-built, Bahamian corpus first</li>
+        <li>Every answer shows its sources — RAG-first</li>
+        <li>Built for Bahamian law, not adapted</li>
+        <li>Retrieval before generation — traceable</li>
+        <li>Free tier exists, Pro at $39/month</li>
+        <li>Feels like a public resource, not a product</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="amber-rule"></div>
+
+
+<!-- ══════════════════ SYSTEM TABLE ══════════════════ -->
+<div class="section s-ink">
+  <div class="eyebrow">Mark Architecture</div>
+  <div class="section-title">When to Use Which Mark</div>
+
+  <div class="sys-grid">
+    <div class="sys-col">
+      <div class="sys-col-label">01 — Statute Lines</div>
+      <p>The primary mark. Homepage, app header, marketing materials, legal notices, PDF reports, any surface with enough width to show the mark at full form. Always paired with the wordmark.</p>
+      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.2); letter-spacing: 0.1em;">ALWAYS + WORDMARK</div>
+    </div>
+
+    <div class="sys-col">
+      <div class="sys-col-label">02 — Pillar Arc</div>
+      <p>Empowerment contexts. Legal aid pages, government partnership surfaces, educational materials, community outreach. Signals civic authority and public access — not commercial SaaS.</p>
+      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.2); letter-spacing: 0.1em;">+ WORDMARK OR STANDALONE</div>
+    </div>
+
+    <div class="sys-col" style="border-left: 2px solid var(--amber);">
+      <div class="sys-col-label">03 — LB Monogram</div>
+      <p>Small format only. App icon, browser favicon, admin panel header, email signature watermark, loading screen. The Statute Lines mark is the alternative at 32px+ — test both before deciding.</p>
+      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(200,146,42,0.15); font-family: 'DM Mono', monospace; font-size: 9px; color: var(--amber); letter-spacing: 0.1em; opacity: 0.6;">STANDALONE · NO WORDMARK</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<div class="footer">
+  <div class="footer-l">
+    LawBey — Bahamian Legal Research AI<br>
+    Identity System v1.0 · Nassau, The Bahamas<br>
+    Retrieval-grounded · Law in every hand
+  </div>
+  <div class="footer-r">beta.lawbey.com</div>
+</div>
+
+</body>
+</html>
