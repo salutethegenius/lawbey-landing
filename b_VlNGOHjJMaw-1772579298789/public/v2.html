@@ -1419,6 +1419,22 @@ body{
   .hero-left{padding:40px 24px;}
   .how,.corpus,.audience,.pro-cta,.footer{padding-left:24px;padding-right:24px;}
 }
+
+/* ─── MAX-WIDTH CONSTRAINT — keeps content ≤1200px on wide screens ─── */
+@media(min-width:1345px){
+  .nav{
+    padding-left:calc((100% - 1200px) / 2);
+    padding-right:calc((100% - 1200px) / 2);
+  }
+  .how,.corpus,.audience,.pro-cta,.footer{
+    padding-left:calc((100% - 1200px) / 2);
+    padding-right:calc((100% - 1200px) / 2);
+  }
+  .transition-strip,.bridge{
+    padding-left:calc((100% - 1200px) / 2);
+    padding-right:calc((100% - 1200px) / 2);
+  }
+}
 </style>
 </head>
 <body>
