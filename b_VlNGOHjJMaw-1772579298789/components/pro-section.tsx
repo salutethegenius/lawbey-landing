@@ -68,18 +68,19 @@ export function ProSection() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="https://beta.lawbey.com"
-                  className="group inline-flex items-center justify-center gap-2 rounded-md bg-[var(--amber)] px-6 py-3 font-sans text-sm font-medium text-[var(--ink)] transition-all duration-300 hover:bg-[var(--amber-light)]"
+                <button
+                  type="button"
+                  className="group inline-flex items-center justify-center gap-2 rounded-md bg-[var(--amber)] px-6 py-3 font-sans text-sm font-medium text-[var(--ink)] transition-all duration-300 cursor-default"
+                  disabled
                 >
                   Coming soon
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </Link>
+                </button>
                 <Link
                   href="https://beta.lawbey.com"
                   className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-6 py-3 font-sans text-sm font-medium text-white transition-all duration-300 hover:bg-white/10"
                 >
-                  Start Free Trial
+                  Start forever free account
+                  <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
             </div>

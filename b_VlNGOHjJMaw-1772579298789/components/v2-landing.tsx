@@ -606,7 +606,7 @@ export function V2Landing() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2026 LawBey LLC. All rights reserved. Bahamas, The Bahamas.</p>
+          <p>© 2026 LawBey LLC. All rights reserved. Freeport, Grand Bahama, The Bahamas.</p>
           <p>
             Powered by{" "}
             <a
