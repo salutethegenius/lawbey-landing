@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X, ArrowUpRight } from "lucide-react"
-import { Logo } from "./logo"
-
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
@@ -24,7 +22,27 @@ export function Navbar() {
       }`}
     >
       <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4 lg:px-8">
-        <Logo href="/" variant="dark" compact showSubline className="flex-shrink-0" />
+        <Link href="/" className="flex items-center gap-3.5 flex-shrink-0 no-underline">
+          <svg width="42" height="42" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <line x1="8" y1="14" x2="68" y2="14" stroke="white" strokeWidth="3.5" strokeLinecap="round" opacity="0.15"/>
+            <line x1="8" y1="24" x2="72" y2="24" stroke="white" strokeWidth="3.5" strokeLinecap="round" opacity="0.15"/>
+            <line x1="8" y1="34" x2="76" y2="34" stroke="#E0AE52" strokeWidth="4.5" strokeLinecap="round"/>
+            <circle cx="76" cy="34" r="4" fill="#E0AE52"/>
+            <circle cx="76" cy="34" r="7" fill="none" stroke="#E0AE52" strokeWidth="1" opacity="0.35"/>
+            <line x1="8" y1="44" x2="60" y2="44" stroke="white" strokeWidth="3.5" strokeLinecap="round" opacity="0.15"/>
+            <line x1="8" y1="54" x2="66" y2="54" stroke="white" strokeWidth="3.5" strokeLinecap="round" opacity="0.10"/>
+            <line x1="8" y1="64" x2="52" y2="64" stroke="white" strokeWidth="3.5" strokeLinecap="round" opacity="0.07"/>
+          </svg>
+          <div className="flex flex-col" style={{ lineHeight: 1 }}>
+            <span style={{ fontFamily: "var(--font-dm-mono)", fontSize: "8px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.45)", textTransform: "uppercase" }}>
+              Bahamian Legal Research
+            </span>
+            <span style={{ fontFamily: "var(--font-cormorant)", fontSize: "22px", fontWeight: 600, letterSpacing: "-0.3px", lineHeight: 1.1 }}>
+              <span style={{ color: "white" }}>Law</span>
+              <em style={{ fontStyle: "italic", color: "#E0AE52" }}>Bey</em>
+            </span>
+          </div>
+        </Link>
 
         <div className="hidden lg:flex items-center gap-8">
           <NavLink href="#how-it-works">How It Works</NavLink>
