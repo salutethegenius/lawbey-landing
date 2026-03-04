@@ -26,6 +26,7 @@ export function Footer() {
               <FooterLink href="#how-it-works">How It Works</FooterLink>
               <FooterLink href="#features">Features</FooterLink>
               <FooterLink href="#pro">LawBey Pro</FooterLink>
+              <FooterLink href="/desk">Research Desk</FooterLink>
               <FooterLink href="https://beta.lawbey.com">Try Free</FooterLink>
             </div>
           </div>

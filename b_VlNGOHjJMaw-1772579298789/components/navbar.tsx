@@ -26,14 +26,15 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4 lg:px-8">
         <Logo href="/" variant="dark" compact showSubline className="flex-shrink-0" />
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           <NavLink href="#how-it-works">How It Works</NavLink>
           <NavLink href="#features">Features</NavLink>
           <NavLink href="#who-uses">Who Uses LawBey</NavLink>
           <NavLink href="#pro">Pro</NavLink>
+          <NavLink href="/desk" amber>Research Desk</NavLink>
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           <Link
             href="https://beta.lawbey.com"
             className="font-mono px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-300"
@@ -51,17 +52,17 @@ export function Navbar() {
 
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="md:hidden p-2 text-foreground"
+          className="lg:hidden p-2 text-foreground"
           aria-label={isMobileOpen ? "Close menu" : "Open menu"}
         >
           {isMobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile / tablet menu */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${
-          isMobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        className={`lg:hidden overflow-hidden transition-all duration-500 ease-out ${
+          isMobileOpen ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="px-6 pb-6 pt-2 bg-[var(--ink)]/95 backdrop-blur-xl border-b border-[var(--rule)] flex flex-col gap-4">
@@ -77,7 +78,10 @@ export function Navbar() {
           <MobileNavLink href="#pro" onClick={() => setIsMobileOpen(false)}>
             Pro
           </MobileNavLink>
-          <div className="flex flex-col gap-3 pt-4 border-t border-border">
+          <MobileNavLink href="/desk" onClick={() => setIsMobileOpen(false)} amber>
+            Research Desk
+          </MobileNavLink>
+          <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
             <Link
               href="https://beta.lawbey.com"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -98,11 +102,15 @@ export function Navbar() {
   )
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({ href, children, amber }: { href: string; children: React.ReactNode; amber?: boolean }) {
   return (
     <Link
       href={href}
-      className="relative font-mono text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 group"
+      className={`relative font-mono text-sm transition-colors duration-300 group ${
+        amber
+          ? "text-[var(--amber)] hover:text-[var(--amber-light)]"
+          : "text-muted-foreground hover:text-foreground"
+      }`}
     >
       {children}
       <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-[var(--amber)] transition-all duration-300 group-hover:w-full" />
@@ -114,16 +122,22 @@ function MobileNavLink({
   href,
   onClick,
   children,
+  amber,
 }: {
   href: string
   onClick: () => void
   children: React.ReactNode
+  amber?: boolean
 }) {
   return (
     <Link
       href={href}
       onClick={onClick}
-      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+      className={`text-sm transition-colors font-sans ${
+        amber
+          ? "text-[var(--amber)] hover:text-[var(--amber-light)] font-medium"
+          : "text-muted-foreground hover:text-foreground"
+      }`}
     >
       {children}
     </Link>
