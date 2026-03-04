@@ -77,7 +77,7 @@ export function Hero() {
             href="/desk"
             className="group flex items-center gap-2 px-8 py-3.5 border border-white/30 text-white font-medium rounded-md hover:bg-white/10 transition-all duration-300 text-sm"
           >
-            See How It Works
+            Open the Research Desk
           </Link>
         </div>
 
