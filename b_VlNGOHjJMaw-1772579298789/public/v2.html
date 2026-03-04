@@ -2384,26 +2384,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (chatSend) {
       chatSend.setAttribute('disabled', 'true');
-      (chatSend as HTMLButtonElement).style.opacity = '0.5';
-      (chatSend as HTMLButtonElement).style.cursor = 'not-allowed';
+      chatSend.style.opacity = '0.5';
+      chatSend.style.cursor = 'not-allowed';
     }
 
-    quickPrompts.forEach((btn) => {
-      (btn as HTMLButtonElement).disabled = true;
-      (btn as HTMLButtonElement).style.opacity = '0.5';
-      (btn as HTMLButtonElement).style.cursor = 'not-allowed';
+    quickPrompts.forEach(function(btn) {
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+      btn.style.cursor = 'not-allowed';
     });
 
-    tiles.forEach((btn) => {
-      (btn as HTMLButtonElement).disabled = true;
-      (btn as HTMLButtonElement).style.opacity = '0.6';
-      (btn as HTMLButtonElement).style.cursor = 'default';
+    tiles.forEach(function(btn) {
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      btn.style.cursor = 'default';
     });
 
     if (status && statusDot && statusText) {
       statusDot.classList.remove('status-dot');
-      (statusDot as HTMLElement).style.backgroundColor = 'rgba(156,163,175,0.6)';
-      (statusText as Text).textContent = ' Chat temporarily offline';
+      statusDot.style.backgroundColor = 'rgba(156,163,175,0.6)';
+      statusText.textContent = ' Chat temporarily offline';
     }
 
     if (retrievalLabel) {

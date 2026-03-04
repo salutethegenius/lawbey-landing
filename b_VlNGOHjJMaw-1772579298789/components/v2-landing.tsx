@@ -333,9 +333,6 @@ export function V2Landing() {
         </div>
       </section>
 
-      {/* Why LawBey */}
-      <WhyLawBey />
-
       {/* How it works */}
       <section className="how" id="how">
         <div className="section-eyebrow">How LawBey Works</div>
@@ -376,6 +373,9 @@ export function V2Landing() {
           </div>
         </div>
       </section>
+
+      {/* Why LawBey */}
+      <WhyLawBey />
 
       {/* Corpus */}
       <section className="corpus" id="corpus">

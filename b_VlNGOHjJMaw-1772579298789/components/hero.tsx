@@ -74,7 +74,7 @@ export function Hero() {
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </Link>
           <Link
-            href="#how-it-works"
+            href="/v2"
             className="group flex items-center gap-2 px-8 py-3.5 border border-white/30 text-white font-medium rounded-md hover:bg-white/10 transition-all duration-300 text-sm"
           >
             See How It Works
