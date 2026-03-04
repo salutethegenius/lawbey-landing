@@ -7,7 +7,7 @@ export function Mission() {
   const [ref, isVisible] = useAnimateIn<HTMLDivElement>()
 
   return (
-    <section className="relative py-20 lg:py-[80px] px-6 lg:px-[72px] bg-white">
+    <section id="mission" className="relative py-20 lg:py-[80px] px-6 lg:px-[72px] bg-white">
       <div className="mx-auto max-w-3xl text-center">
         <div
           ref={ref}

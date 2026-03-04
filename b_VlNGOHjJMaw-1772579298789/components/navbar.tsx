@@ -24,7 +24,7 @@ export function Navbar() {
       }`}
     >
       <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4 lg:px-8">
-        <Logo href="/" variant="dark" compact className="flex-shrink-0" />
+        <Logo href="/" variant="dark" compact showSubline className="flex-shrink-0" />
 
         <div className="hidden md:flex items-center gap-8">
           <NavLink href="#how-it-works">How It Works</NavLink>
