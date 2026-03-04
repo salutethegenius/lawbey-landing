@@ -2,7 +2,7 @@
 
 import { useAnimateIn } from "@/hooks/use-animate-in"
 import Link from "next/link"
-import { ArrowUpRight, Check, Zap } from "lucide-react"
+import { ArrowUpRight, Check } from "lucide-react"
 
 const proFeatures = [
   "Unlimited document uploads",
@@ -29,15 +29,28 @@ export function ProSection() {
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full border border-[var(--amber)]/30 bg-[var(--amber)]/10">
-                <Zap className="h-3 w-3 text-[var(--amber-light)]" />
-                <span className="font-mono text-xs font-medium text-[var(--amber-light)] tracking-wide">
-                  Pro
-                </span>
+              {/* Pro variant: § eyebrow (lawbey-logo-system .eyebrow) */}
+              <div className="mb-6 flex items-center gap-2.5 font-mono text-[9.5px] uppercase tracking-[0.22em] text-[var(--amber)]">
+                <span className="font-serif text-[14px] leading-none text-[var(--amber)]">§</span>
+                <span>Pro Variant</span>
               </div>
-              <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight mb-4 text-balance text-white">
-                LawBey Pro
-              </h2>
+              {/* Law Bey + PRO badge lockup (logo system Pro variant) */}
+              <div className="mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-2">
+                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white">
+                  Law
+                </h2>
+                <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal italic tracking-tight text-[var(--amber-light)]">
+                  Bey
+                </h2>
+                <div className="inline-flex h-8 items-center rounded-md px-3 bg-[var(--amber)]">
+                  <span className="font-mono text-xs font-medium tracking-[0.1em] text-white">
+                    PRO
+                  </span>
+                </div>
+              </div>
+              <p className="font-mono text-[8px] text-white/[0.28] tracking-[0.2em] uppercase mb-6">
+                Professional legal research · $39/mo
+              </p>
               <p className="text-white/60 leading-relaxed mb-6 font-sans">
                 Professional legal research and document workflows, built for
                 Bahamian firms and attorneys. Compress hours of research into
@@ -53,7 +66,7 @@ export function ProSection() {
                   href="https://beta.lawbey.com"
                   className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--amber)] text-[var(--ink)] font-medium rounded-md hover:bg-[var(--amber-light)] transition-all duration-300 text-sm font-sans"
                 >
-                  Choose Pro
+                  Coming soon
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
                 <Link
