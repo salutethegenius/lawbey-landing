@@ -29,6 +29,14 @@ export function Wordmark({
 
   return (
     <span className={`inline-flex flex-col font-serif ${className ?? ""}`}>
+      {showSubline && (
+        <span
+          className="font-mono text-[7.5px] md:text-[9px] uppercase mb-0.5"
+          style={{ color: sublineColor, letterSpacing: "2px" }}
+        >
+          Bahamian Legal Research
+        </span>
+      )}
       <span className="tracking-tight" style={{ letterSpacing: `${s.letterSpacing}px` }}>
         <span className="font-semibold not-italic" style={{ color: lawColor, fontSize: s.fontSize }}>
           Law
@@ -37,14 +45,6 @@ export function Wordmark({
           Bey
         </span>
       </span>
-      {showSubline && (
-        <span
-          className="font-mono text-[7.5px] md:text-[9px] uppercase mt-1"
-          style={{ color: sublineColor, letterSpacing: "2px" }}
-        >
-          BAHAMIAN LEGAL RESEARCH
-        </span>
-      )}
     </span>
   )
 }
