@@ -22,7 +22,7 @@ export function CTA() {
             Get started today
           </h2>
           <p className="text-white/55 text-lg max-w-xl mx-auto leading-relaxed mb-10 font-sans">
-            No signup required for the free layer. No credit card needed. For
+            Email signup required for the free layer. No credit card needed. For
             firms and professionals, LawBey Pro brings faster research and
             document workflows.
           </p>
