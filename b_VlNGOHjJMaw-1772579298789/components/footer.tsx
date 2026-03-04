@@ -12,7 +12,7 @@ export function Footer() {
             <p className="font-mono text-[10px] text-white/20 leading-[2.1] tracking-[0.09em]">
               LawBey — Bahamian Legal Research AI
               <br />
-              Nassau, The Bahamas
+              Bahamas, The Bahamas
               <br />
               Retrieval-grounded · Law in every hand
             </p>
