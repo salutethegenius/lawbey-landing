@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-50: #e0f7fa;
+  --primary-500: #00acc1;
+  --primary-700: #00838f;
+  --primary-900: #004d5a;
+  --accent-500: #ffd700;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased text-neutral-800;
+}
