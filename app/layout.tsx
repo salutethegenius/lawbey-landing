@@ -1,11 +1,8 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 
 const META_PIXEL_ID = '1703223410819890';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lawbey.com';
 
@@ -58,7 +55,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en">
       <head>
         <script
           type="application/ld+json"
