@@ -48,13 +48,16 @@ export const metadata: Metadata = {
     description,
   },
   icons: {
-    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
-    apple: '/icon.svg',
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icon', type: 'image/png' },
+    ],
+    apple: '/apple-icon',
   },
 }
 
 export const viewport: Viewport = {
-  themeColor: '#111827',
+  themeColor: '#F0EBE1',
   width: 'device-width',
   initialScale: 1,
 }
