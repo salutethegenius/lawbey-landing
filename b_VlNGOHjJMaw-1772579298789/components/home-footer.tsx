@@ -19,7 +19,7 @@ export function HomeFooter() {
 
           <FooterCol title="Product">
             <FooterLink href="/">Ask</FooterLink>
-            <FooterLink href="/about">Research Desk</FooterLink>
+            <FooterLink href="/desk">Research Desk</FooterLink>
             <FooterLink href="/#pricing">Pricing</FooterLink>
             <FooterLink href="/#api">API</FooterLink>
           </FooterCol>
@@ -32,7 +32,14 @@ export function HomeFooter() {
           </FooterCol>
 
           <FooterCol title="Company">
+            <FooterLink href="/about">About</FooterLink>
             <FooterLink href="mailto:hello@lawbey.com">Contact</FooterLink>
+            <FooterLink href="https://thekemisgroup.com" external>
+              The Kemis Group
+            </FooterLink>
+            <FooterLink href="https://kennethmoncur.com" external>
+              Kenneth Moncur
+            </FooterLink>
             <FooterLink href="https://kemisdigital.com" external>
               KemisDigital
             </FooterLink>
@@ -51,7 +58,8 @@ export function HomeFooter() {
             legal matters, always consult a qualified Bahamian attorney.
           </p>
           <p className="mt-4 text-xs text-ink/35">
-            © 2026 LawBey LLC. All rights reserved.
+            © 2026 LawBey LLC. Freeport, Grand Bahama, The Bahamas. All rights
+            reserved.
           </p>
         </div>
       </div>
