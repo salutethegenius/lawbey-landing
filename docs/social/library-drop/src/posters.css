@@ -495,29 +495,29 @@ html.format-story .url {
   max-width: 16ch;
 }
 
-/* ── Theme: carta / finance ── */
-[data-theme="carta"] .kicker {
+/* ── Theme: finance / corporate ── */
+[data-theme="finance"] .kicker {
   color: #8fd0d6;
 }
 
-[data-theme="carta"] .kicker::before {
+[data-theme="finance"] .kicker::before {
   color: #8fd0d6;
 }
 
-[data-theme="carta"] .cluster {
+[data-theme="finance"] .cluster {
   border-left-color: rgba(42, 138, 149, 0.9);
   background: #16343a;
 }
 
-[data-theme="carta"] .cat {
+[data-theme="finance"] .cat {
   color: #8fd0d6;
 }
 
-[data-theme="carta"] .series strong {
+[data-theme="finance"] .series strong {
   color: #8fd0d6;
 }
 
-[data-theme="carta"] .url {
+[data-theme="finance"] .url {
   color: var(--amber-light);
 }
 

@@ -10,9 +10,9 @@ Source is HTML/CSS so type stays real, selectable, and editable. PNGs are render
 |---|---|---|
 | 01 | `src/01-new-this-weekend.html` | New this weekend — questions people were already asking |
 | 02 | `src/02-civic.html` | Everyday civic already in LawBey |
-| 03 | `src/03-carta.html` | CARTA finance / corporate headline acts |
+| 03 | `src/03-finance.html` | Finance / corporate headline acts |
 
-Shared chrome: Statute Lines mark + LawBey wordmark (Cormorant + amber italic *Bey*), amber rule, DM Mono kicker, `beta.lawbey.com` footer. Identity tokens from `lawbey-logo-system.html` (ink `#111827`, amber `#C8922A` / `#E0AE52`, teal `#1B6068` on CARTA only).
+Shared chrome: Statute Lines mark + LawBey wordmark (Cormorant + amber italic *Bey*), amber rule, DM Mono kicker, `beta.lawbey.com` footer. Identity tokens from `lawbey-logo-system.html` (ink `#111827`, amber `#C8922A` / `#E0AE52`, teal `#1B6068` on the finance poster only).
 
 Square is the primary post. Stories keep the same type hierarchy with more leading — skip a story export if a later edit makes it sparse or cramped.
 
@@ -22,7 +22,7 @@ Rendered PNGs live in `export/`:
 
 - `01-new-this-weekend-1080.png` / `01-new-this-weekend-story.png`
 - `02-civic-1080.png` / `02-civic-story.png`
-- `03-carta-1080.png` / `03-carta-story.png`
+- `03-finance-1080.png` / `03-finance-story.png`
 
 Re-render:
 
@@ -42,9 +42,9 @@ People were already asking LawBey about family, rent, crime, immigration, work d
 
 The civic set people already used on LawBey: the Constitution of The Bahamas, the Employment Act, Firearms, Road Traffic, domestic violence protection orders, consumer protection, and data protection. Still the default for jobs, rights, guns, and the road. beta.lawbey.com
 
-**03 — CARTA**
+**03 — Finance / corporate**
 
-The financial/corporate stack LawBey already carried — Companies, IBC, banks and trust, securities, investment funds, DARE digital assets, trustees and foundations, plus financial transactions reporting. Headline acts only. beta.lawbey.com
+The financial/corporate stack LawBey already carried — companies, IBC, banks, securities, funds, digital assets. Ask at beta.lawbey.com
 
 ## On the graphics
 
@@ -59,4 +59,4 @@ Do **not** add these to this drop:
 - Real Property Tax (parked with property)
 - Court procedure / CPR, defamation, quieting titles
 - DMTT except the Graphic 1 footnote
-- CARTA’s 141 markdown part files — headline acts only
+- Part-file splits of the finance/corporate acts — headline acts only

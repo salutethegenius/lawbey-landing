@@ -20,7 +20,7 @@ const CHROME = process.env.CHROME_PATH || "/usr/local/bin/google-chrome";
 const POSTERS = [
   "01-new-this-weekend",
   "02-civic",
-  "03-carta",
+  "03-finance",
 ];
 
 const MIME = {
