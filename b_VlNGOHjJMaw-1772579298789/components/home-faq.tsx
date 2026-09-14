@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { HomeCloseCta } from "@/components/home-close-cta"
 
 const items = [
   {
@@ -22,15 +23,15 @@ const items = [
   },
   {
     q: "How does a free question work?",
-    a: "On this homepage you can ask one question without an account and see a grounded answer. A follow-up asks you to create an account. The full app at beta.lawbey.com remains free forever for ongoing use.",
+    a: "On this homepage you can ask one question without an account and see a grounded answer with sources when retrieval returns them. After that answer, you are asked to create a free account to save the research and continue. The same browser is limited to one homepage question every 24 hours. The full app at beta.lawbey.com is the free account workspace — not LawBey Pro.",
   },
   {
     q: "What is LawBey Pro?",
-    a: "Pro is for firms, attorneys, and operators who need unlimited queries, document uploads, full corpus access, faster responses, and a secure workspace. It is $39/month and coming soon.",
+    a: "Pro is a coming paid plan for firms, attorneys, and operators who need unlimited queries, document uploads, full corpus access, faster responses, and a secure workspace. It is listed at $39/month and is not for sale yet. Use Join the Pro waitlist on this page to tell us you want it. A free account is separate from Pro.",
   },
   {
     q: "How do answers stay grounded?",
-    a: "Retrieval first, then explanation. LawBey searches the indexed Bahamian corpus before it writes. Claims are meant to trace back to retrieved sources, not to a general internet guess.",
+    a: "Retrieval first, then explanation. LawBey searches the indexed Bahamian corpus before it writes. When the retrieval model returns sources, they are shown with the answer. If no sources arrive, the answer says so — it is not implied to be cited.",
   },
   {
     q: "Can I use LawBey in my own product / via API?",
@@ -73,6 +74,13 @@ export function HomeFaq() {
             </AccordionItem>
           ))}
         </Accordion>
+
+        <HomeCloseCta
+          placement="faq"
+          eyebrow="Keep going"
+          title="Ask a free question, then save the research."
+          body="One homepage question needs no account. Create a free account after the answer to continue in the full app."
+        />
       </div>
     </section>
   )

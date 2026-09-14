@@ -15,10 +15,13 @@ function gateResponse() {
 
 export async function POST(request: Request) {
   const apiKey = process.env.OPENWEBUI_API_KEY
-  const model = process.env.OPENWEBUI_MODEL ?? "gpt-4.1-mini"
+  const model = process.env.OPENWEBUI_MODEL?.trim()
 
-  if (!apiKey) {
-    return NextResponse.json({ error: "Ask is not configured." }, { status: 500 })
+  if (!apiKey || !model) {
+    return NextResponse.json(
+      { error: "Ask is not configured. Set OPENWEBUI_API_KEY and OPENWEBUI_MODEL." },
+      { status: 500 },
+    )
   }
 
   const alreadyUsed = request.headers

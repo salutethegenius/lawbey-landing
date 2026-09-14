@@ -68,18 +68,28 @@ export default function PrivacyPage() {
           <code className="font-mono text-[13px] whitespace-nowrap">
             lb_free_ask
           </code>{" "}
-          (about 24 hours) and a browser localStorage flag so the free ask
-          cannot be repeated on the same device. Those flags store that you
-          used the free question, not the text of the question itself.
+          (about 24 hours) and a browser localStorage timestamp so the free ask
+          cannot be repeated on the same device during that window. Those flags
+          store that you used the free question, not the text of the question
+          itself.
         </p>
       </LegalSection>
 
       <LegalSection title="Analytics and marketing">
         <p>
-          This website uses Vercel Analytics for aggregated traffic. Marketing
-          pages may also use Meta Pixel so we can understand campaign
-          performance. Those tools can collect device and usage information
-          such as pages viewed, approximate location, and browser type.
+          This website uses Vercel Analytics for aggregated traffic. In
+          production it also uses PostHog in cookieless mode to measure the
+          public conversion funnel (for example: a sample prompt was clicked, a
+          question was submitted, an answer finished or failed, an account
+          prompt was shown, or a signup or waitlist control was clicked).
+        </p>
+        <p>
+          PostHog is initialized without person profiles, without autocapture,
+          and without session recording. Event properties are limited to
+          placement, sample-chip category, success or failure, a duration
+          bucket, source count, and destination. We do not send the text of
+          prompts, answers, emails, source titles, or other legal-research
+          content to PostHog.
         </p>
       </LegalSection>
 

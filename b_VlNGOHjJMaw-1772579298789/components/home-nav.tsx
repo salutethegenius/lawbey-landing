@@ -4,8 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Menu, X, ArrowUpRight } from "lucide-react"
 import { Logo } from "@/components/logo"
-
-const BETA_URL = "https://beta.lawbey.com"
+import { BETA_URL } from "@/lib/constants"
 
 export function HomeNav() {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
@@ -26,13 +25,13 @@ export function HomeNav() {
           >
             Log in
           </a>
-          <a
-            href={BETA_URL}
+          <Link
+            href="/#ask"
             className="group flex items-center gap-1.5 px-5 py-2.5 bg-ink text-parchment text-sm font-medium rounded-md hover:bg-ink/90 transition-all duration-300"
           >
             Ask LawBey
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </a>
+          </Link>
         </div>
 
         <button
@@ -68,13 +67,14 @@ export function HomeNav() {
           >
             Log in
           </a>
-          <a
-            href={BETA_URL}
+          <Link
+            href="/#ask"
+            onClick={() => setIsMobileOpen(false)}
             className="flex items-center justify-center gap-1.5 px-5 py-2.5 bg-ink text-parchment text-sm font-medium rounded-md"
           >
             Ask LawBey
             <ArrowUpRight className="h-3.5 w-3.5" />
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
