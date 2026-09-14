@@ -2,7 +2,7 @@
 
 import { Check } from "lucide-react"
 import { trackEvent } from "@/lib/analytics"
-import { BETA_URL, PRO_WAITLIST_MAILTO } from "@/lib/constants"
+import { BETA_SIGNUP_URL, PRO_WAITLIST_MAILTO } from "@/lib/constants"
 
 const freeFeatures = [
   "One homepage question without an account",
@@ -61,7 +61,7 @@ export function HomePricing() {
               ))}
             </ul>
             <a
-              href={BETA_URL}
+              href={BETA_SIGNUP_URL}
               onClick={() =>
                 trackEvent("signup_cta_clicked", {
                   placement: "pricing",

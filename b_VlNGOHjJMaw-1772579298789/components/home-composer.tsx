@@ -9,7 +9,7 @@ import {
   sourcesFromSsePayload,
   type AnswerSource,
 } from "@/lib/ask-sources"
-import { BETA_URL } from "@/lib/constants"
+import { BETA_AUTH_URL, BETA_SIGNUP_URL } from "@/lib/constants"
 import { markFreeAskUsed, readFreeAskUsed } from "@/lib/free-ask"
 
 const chips = [
@@ -321,7 +321,7 @@ export function HomeComposer() {
                   : "This device already used its free homepage question. Create a free account to keep researching in the full app."}
               </p>
               <a
-                href={BETA_URL}
+                href={BETA_SIGNUP_URL}
                 onClick={() =>
                   trackEvent("signup_cta_clicked", {
                     placement: "composer",
@@ -371,7 +371,7 @@ export function HomeComposer() {
       {error && (
         <p className="mt-4 text-sm text-ink/60 leading-relaxed">
           {error}{" "}
-          <a href={BETA_URL} className="underline underline-offset-2 text-ink">
+          <a href={BETA_AUTH_URL} className="underline underline-offset-2 text-ink">
             Open LawBey
           </a>
         </p>
