@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Logo } from "@/components/logo"
-import { BETA_URL } from "@/lib/constants"
+import { BETA_AUTH_URL } from "@/lib/constants"
 
 export function HomeFooter() {
   return (
@@ -25,7 +25,7 @@ export function HomeFooter() {
 
           <FooterCol title="Resources">
             <FooterLink href="/#faq">FAQ</FooterLink>
-            <FooterLink href={BETA_URL} external>
+            <FooterLink href={BETA_AUTH_URL} external>
               Log in
             </FooterLink>
           </FooterCol>

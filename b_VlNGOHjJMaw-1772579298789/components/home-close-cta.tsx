@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { BETA_URL } from "@/lib/constants"
+import { BETA_SIGNUP_URL } from "@/lib/constants"
 import { trackEvent } from "@/lib/analytics"
 
 export function HomeCloseCta({
@@ -34,7 +34,7 @@ export function HomeCloseCta({
           Ask a free question
         </Link>
         <a
-          href={BETA_URL}
+          href={BETA_SIGNUP_URL}
           onClick={() =>
             trackEvent("signup_cta_clicked", {
               placement,

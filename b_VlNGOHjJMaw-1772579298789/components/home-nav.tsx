@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Menu, X, ArrowUpRight } from "lucide-react"
 import { Logo } from "@/components/logo"
-import { BETA_URL } from "@/lib/constants"
+import { BETA_AUTH_URL } from "@/lib/constants"
 
 export function HomeNav() {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
@@ -20,7 +20,7 @@ export function HomeNav() {
           <NavLink href="/#pricing">Pricing</NavLink>
           <NavLink href="/#faq">FAQ</NavLink>
           <a
-            href={BETA_URL}
+            href={BETA_AUTH_URL}
             className="text-sm text-ink/60 hover:text-ink transition-colors duration-300"
           >
             Log in
@@ -62,7 +62,7 @@ export function HomeNav() {
             FAQ
           </MobileNavLink>
           <a
-            href={BETA_URL}
+            href={BETA_AUTH_URL}
             className="text-sm text-ink/70 hover:text-ink transition-colors"
           >
             Log in
