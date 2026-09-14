@@ -16,12 +16,10 @@ export function HomeNav() {
         <Logo variant="light" compact href="/" />
 
         <div className="hidden md:flex items-center gap-6">
-          <Link
-            href="/about"
-            className="text-sm text-ink/60 hover:text-ink transition-colors duration-300"
-          >
-            About
-          </Link>
+          <NavLink href="/about">About</NavLink>
+          <NavLink href="/#product">Product</NavLink>
+          <NavLink href="/#pricing">Pricing</NavLink>
+          <NavLink href="/#faq">FAQ</NavLink>
           <a
             href={BETA_URL}
             className="text-sm text-ink/60 hover:text-ink transition-colors duration-300"
@@ -48,17 +46,22 @@ export function HomeNav() {
 
       <div
         className={`md:hidden overflow-hidden transition-all duration-500 ease-out ${
-          isMobileOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+          isMobileOpen ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="mx-6 mb-4 px-5 py-5 bg-white/90 backdrop-blur-xl border border-ink/10 rounded-xl flex flex-col gap-4">
-          <Link
-            href="/about"
-            onClick={() => setIsMobileOpen(false)}
-            className="text-sm text-ink/70 hover:text-ink transition-colors"
-          >
+          <MobileNavLink href="/about" onClick={() => setIsMobileOpen(false)}>
             About
-          </Link>
+          </MobileNavLink>
+          <MobileNavLink href="/#product" onClick={() => setIsMobileOpen(false)}>
+            Product
+          </MobileNavLink>
+          <MobileNavLink href="/#pricing" onClick={() => setIsMobileOpen(false)}>
+            Pricing
+          </MobileNavLink>
+          <MobileNavLink href="/#faq" onClick={() => setIsMobileOpen(false)}>
+            FAQ
+          </MobileNavLink>
           <a
             href={BETA_URL}
             className="text-sm text-ink/70 hover:text-ink transition-colors"
@@ -75,5 +78,36 @@ export function HomeNav() {
         </div>
       </div>
     </nav>
+  )
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="text-sm text-ink/60 hover:text-ink transition-colors duration-300"
+    >
+      {children}
+    </Link>
+  )
+}
+
+function MobileNavLink({
+  href,
+  onClick,
+  children,
+}: {
+  href: string
+  onClick: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className="text-sm text-ink/70 hover:text-ink transition-colors"
+    >
+      {children}
+    </Link>
   )
 }
