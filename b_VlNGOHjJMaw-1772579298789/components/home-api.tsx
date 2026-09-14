@@ -1,5 +1,7 @@
-const REQUEST_MAILTO =
-  "mailto:hello@lawbey.com?subject=LawBey%20API%20/%20MCP%20access"
+"use client"
+
+import { API_ACCESS_MAILTO } from "@/lib/constants"
+import { trackEvent } from "@/lib/analytics"
 
 export function HomeApi() {
   return (
@@ -18,7 +20,10 @@ export function HomeApi() {
         </p>
         <div className="mt-10 flex items-center justify-center">
           <a
-            href={REQUEST_MAILTO}
+            href={API_ACCESS_MAILTO}
+            onClick={() =>
+              trackEvent("api_access_clicked", { placement: "api" })
+            }
             className="inline-flex items-center justify-center rounded-md bg-ink px-6 py-3 text-sm font-medium text-parchment hover:bg-ink/90 transition-colors"
           >
             Request access

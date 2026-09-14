@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { Pause, Play } from "lucide-react"
+import { HomeCloseCta } from "@/components/home-close-cta"
 
 const SLIDE_MS = 5200
 const FADE_MS = 700
@@ -276,6 +277,12 @@ export function HomeProductTour() {
               </div>
             </div>
 
+            <HomeCloseCta
+              placement="tour"
+              eyebrow="Try it"
+              title="See a grounded answer on this page."
+              body="Ask one free question without an account. After the answer, create a free account to save the research and continue."
+            />
           </div>
         </div>
       </div>

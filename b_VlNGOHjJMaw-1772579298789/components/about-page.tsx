@@ -4,7 +4,6 @@ import { ArrowUpRight } from "lucide-react"
 import { HomeNav } from "@/components/home-nav"
 import { HomeFooter } from "@/components/home-footer"
 
-const BETA_URL = "https://beta.lawbey.com"
 const KEMIS_URL = "https://thekemisgroup.com"
 const KENNETH_URL = "https://kennethmoncur.com"
 
@@ -162,20 +161,20 @@ export function AboutPage() {
             </div>
 
             <div className="mt-10 flex flex-col sm:flex-row sm:flex-wrap gap-3">
-              <a
-                href={BETA_URL}
+              <Link
+                href="/#ask"
                 className="inline-flex items-center justify-center gap-1.5 rounded-md bg-ink px-5 py-2.5 text-sm font-medium text-parchment hover:bg-ink/90 transition-colors"
               >
                 Ask LawBey
                 <ArrowUpRight className="h-3.5 w-3.5" />
-              </a>
+              </Link>
               <Outbound href={KEMIS_URL}>The Kemis Group</Outbound>
               <Outbound href={KENNETH_URL}>kennethmoncur.com</Outbound>
               <Link
-                href="/desk"
+                href="/#product"
                 className="inline-flex items-center justify-center gap-1.5 rounded-md border border-ink/15 bg-white/50 px-5 py-2.5 text-sm font-medium text-ink/80 hover:text-ink hover:border-ink/30 transition-colors"
               >
-                Research Desk
+                See the product
               </Link>
             </div>
           </div>

@@ -1,12 +1,14 @@
-import { Check } from "lucide-react"
+"use client"
 
-const BETA_URL = "https://beta.lawbey.com"
+import { Check } from "lucide-react"
+import { trackEvent } from "@/lib/analytics"
+import { BETA_URL, PRO_WAITLIST_MAILTO } from "@/lib/constants"
 
 const freeFeatures = [
-  "Ask on the homepage with no account",
-  "Keep going in the full app, free forever",
-  "Grounded answers from Bahamian statutes and cases",
-  "Citations you can verify",
+  "One homepage question without an account",
+  "Free account to save research and keep asking in the full app",
+  "Grounded answers from retrieved Bahamian statutes and cases",
+  "Sources shown when the retrieval model returns them",
 ]
 
 const proFeatures = [
@@ -29,14 +31,14 @@ export function HomePricing() {
           Start free. Grow when you need more.
         </h2>
         <p className="mt-4 text-ink/55 text-center max-w-xl mx-auto leading-relaxed">
-          LawBey Free is enough to understand the law. Pro is for people who
-          live in it.
+          Free is one homepage question, then a free account for ongoing
+          research. Pro is the paid workspace for firms — not available yet.
         </p>
 
         <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6">
           <article className="rounded-2xl border border-ink/10 bg-white p-8 md:p-10 shadow-[0_8px_40px_rgba(17,24,39,0.04)]">
             <p className="text-xs font-medium tracking-wide uppercase text-ink/45">
-              Free forever
+              Free
             </p>
             <div className="mt-4 flex items-baseline gap-1">
               <span className="font-serif text-5xl font-semibold tracking-tight">
@@ -44,8 +46,9 @@ export function HomePricing() {
               </span>
             </div>
             <p className="mt-3 text-sm text-ink/55 leading-relaxed">
-              One homepage question without an account. Create a free account
-              for ongoing research in the full app.
+              Ask once on this page with no account. Create a free account to
+              save that research and continue in the full app. Homepage asks
+              reset after 24 hours on the same browser.
             </p>
             <ul className="mt-8 flex flex-col gap-3">
               {freeFeatures.map((feature) => (
@@ -59,9 +62,15 @@ export function HomePricing() {
             </ul>
             <a
               href={BETA_URL}
+              onClick={() =>
+                trackEvent("signup_cta_clicked", {
+                  placement: "pricing",
+                  destination: "beta",
+                })
+              }
               className="mt-10 inline-flex w-full items-center justify-center rounded-md bg-ink px-5 py-3 text-sm font-medium text-parchment hover:bg-ink/90 transition-colors"
             >
-              Start free
+              Create a free account
             </a>
           </article>
 
@@ -80,7 +89,8 @@ export function HomePricing() {
             </div>
             <p className="mt-3 text-sm text-ink/55 leading-relaxed">
               Unlimited research and document workflows for Bahamian firms,
-              attorneys, and serious operators.
+              attorneys, and serious operators. Join the waitlist and we will
+              write when it opens.
             </p>
             <ul className="mt-8 flex flex-col gap-3">
               {proFeatures.map((feature) => (
@@ -92,13 +102,15 @@ export function HomePricing() {
                 </li>
               ))}
             </ul>
-            <button
-              type="button"
-              disabled
-              className="mt-10 inline-flex w-full items-center justify-center rounded-md border border-ink/10 bg-ink/5 px-5 py-3 text-sm font-medium text-ink/40 cursor-not-allowed"
+            <a
+              href={PRO_WAITLIST_MAILTO}
+              onClick={() =>
+                trackEvent("pro_waitlist_clicked", { placement: "pricing" })
+              }
+              className="mt-10 inline-flex w-full items-center justify-center rounded-md border border-ink/15 bg-white px-5 py-3 text-sm font-medium text-ink hover:border-ink/30 transition-colors"
             >
-              Coming soon
-            </button>
+              Join the Pro waitlist
+            </a>
           </article>
         </div>
       </div>

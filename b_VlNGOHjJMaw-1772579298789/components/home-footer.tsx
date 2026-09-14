@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { Logo } from "@/components/logo"
-
-const BETA_URL = "https://beta.lawbey.com"
+import { BETA_URL } from "@/lib/constants"
 
 export function HomeFooter() {
   return (
@@ -18,8 +17,8 @@ export function HomeFooter() {
           </div>
 
           <FooterCol title="Product">
-            <FooterLink href="/">Ask</FooterLink>
-            <FooterLink href="/desk">Research Desk</FooterLink>
+            <FooterLink href="/#ask">Ask</FooterLink>
+            <FooterLink href="/#product">Product</FooterLink>
             <FooterLink href="/#pricing">Pricing</FooterLink>
             <FooterLink href="/#api">API</FooterLink>
           </FooterCol>

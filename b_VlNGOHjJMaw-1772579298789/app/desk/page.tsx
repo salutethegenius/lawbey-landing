@@ -1,12 +1,11 @@
 import type { Metadata } from "next"
-import { DeskFrame } from "@/components/desk-frame"
+import { DeskRedirect } from "./desk-redirect"
 
 export const metadata: Metadata = {
-  title: "LawBey Research Desk — Bahamian Legal Research AI",
-  alternates: { canonical: "/desk" },
-  openGraph: { url: "/desk" },
+  title: "LawBey Research Desk",
+  robots: { index: false, follow: true },
 }
 
 export default function DeskPage() {
-  return <DeskFrame />
+  return <DeskRedirect />
 }

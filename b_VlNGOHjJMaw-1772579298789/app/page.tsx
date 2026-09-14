@@ -12,7 +12,7 @@ export default function Page() {
       <HomeNav />
 
       <div className="flex-1 flex flex-col items-center justify-center px-6 pt-24 pb-16 min-h-screen">
-        <div className="w-full max-w-2xl">
+        <section id="ask" className="w-full max-w-2xl scroll-mt-28">
           <HomeComposer />
 
           <p className="mt-10 text-xs text-ink/40 leading-relaxed max-w-lg mx-auto text-center">
@@ -20,7 +20,7 @@ export default function Page() {
             educational purposes only. This is not legal advice. For specific
             legal matters, always consult a qualified Bahamian attorney.
           </p>
-        </div>
+        </section>
       </div>
 
       <div className="h-px w-full max-w-7xl mx-auto bg-ink/10" />

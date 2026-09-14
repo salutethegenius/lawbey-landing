@@ -1,25 +1,35 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import { ArrowUp } from "lucide-react"
-
-const BETA_URL = "https://beta.lawbey.com"
-const FREE_USED_KEY = "lawbey_free_used"
+import { durationBucket, trackEvent } from "@/lib/analytics"
+import {
+  mergeSources,
+  sourcesFromSsePayload,
+  type AnswerSource,
+} from "@/lib/ask-sources"
+import { BETA_URL } from "@/lib/constants"
+import { markFreeAskUsed, readFreeAskUsed } from "@/lib/free-ask"
 
 const chips = [
   {
+    category: "tenant",
     label: "Tenant rights",
     prompt: "What are my rights as a tenant or landlord in the Bahamas?",
   },
   {
+    category: "business",
     label: "Starting a business",
     prompt: "What are the legal requirements for starting a business in the Bahamas?",
   },
   {
+    category: "constitution",
     label: "Constitution",
     prompt: "Explain the Bahamian Constitution and key citizen rights",
   },
   {
+    category: "crime",
     label: "Crime and courts",
     prompt: "What are the criminal penalties under Bahamian law?",
   },
@@ -28,6 +38,8 @@ const chips = [
 type Turn = {
   role: "user" | "assistant"
   content: string
+  sources?: AnswerSource[]
+  sourcesReady?: boolean
 }
 
 export function HomeComposer() {
@@ -39,35 +51,55 @@ export function HomeComposer() {
   const [usedFree, setUsedFree] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const threadRef = useRef<HTMLDivElement>(null)
+  const accountPromptTracked = useRef(false)
 
   const hasThread = turns.length > 0 || gated
+  const hasAnswer = turns.some(
+    (turn) => turn.role === "assistant" && turn.content.trim(),
+  )
 
   useEffect(() => {
-    try {
-      if (localStorage.getItem(FREE_USED_KEY) === "1") {
-        setUsedFree(true)
-      }
-    } catch {
-      // ignore
+    if (readFreeAskUsed()) setUsedFree(true)
+  }, [])
+
+  useEffect(() => {
+    const focusAsk = () => {
+      if (window.location.hash !== "#ask") return
+      textareaRef.current?.focus()
     }
+    focusAsk()
+    window.addEventListener("hashchange", focusAsk)
+    return () => window.removeEventListener("hashchange", focusAsk)
   }, [])
 
   useEffect(() => {
     threadRef.current?.scrollTo({ top: threadRef.current.scrollHeight })
   }, [turns, gated, isStreaming])
 
-  function applyDelta(snapshot: string) {
+  useEffect(() => {
+    if (!gated || accountPromptTracked.current) return
+    accountPromptTracked.current = true
+    trackEvent("account_prompt_viewed", { placement: "composer" })
+  }, [gated])
+
+  function applyAssistant(
+    updater: (turn: Turn) => Turn,
+  ) {
     setTurns((prev) => {
       const next = [...prev]
       const last = next[next.length - 1]
       if (last?.role === "assistant") {
-        next[next.length - 1] = { role: "assistant", content: snapshot }
+        next[next.length - 1] = updater(last)
       }
       return next
     })
   }
 
-  function consumeSse(chunk: string, onDelta: (text: string) => void): string {
+  function consumeSse(
+    chunk: string,
+    onDelta: (text: string) => void,
+    onSources: (sources: AnswerSource[]) => void,
+  ): string {
     const lines = chunk.split("\n")
     const rest = lines.pop() ?? ""
     for (const line of lines) {
@@ -78,7 +110,9 @@ export function HomeComposer() {
       try {
         const parsed = JSON.parse(data)
         const delta = parsed.choices?.[0]?.delta?.content ?? ""
-        if (delta) onDelta(delta)
+        if (typeof delta === "string" && delta) onDelta(delta)
+        const sources = sourcesFromSsePayload(parsed)
+        if (sources.length > 0) onSources(sources)
       } catch {
         // ignore malformed SSE chunks
       }
@@ -86,21 +120,48 @@ export function HomeComposer() {
     return rest
   }
 
-  async function ask(question: string) {
+  function dropEmptyAssistant() {
+    setTurns((prev) =>
+      prev.filter(
+        (turn, i) =>
+          !(
+            i === prev.length - 1 &&
+            turn.role === "assistant" &&
+            !turn.content
+          ),
+      ),
+    )
+  }
+
+  function openGate() {
+    markFreeAskUsed()
+    setUsedFree(true)
+    setGated(true)
+  }
+
+  async function ask(question: string, placement: "chip" | "composer") {
     const trimmed = question.trim()
     if (!trimmed || isStreaming || gated) return
 
     setPrompt("")
     setError(null)
     setTurns((prev) => [...prev, { role: "user", content: trimmed }])
+    trackEvent("ask_submitted", { placement })
 
     if (usedFree) {
-      setGated(true)
+      trackEvent("answer_failed", { reason: "gate" })
+      openGate()
       return
     }
 
     setIsStreaming(true)
-    setTurns((prev) => [...prev, { role: "assistant", content: "" }])
+    setTurns((prev) => [
+      ...prev,
+      { role: "assistant", content: "", sources: [] },
+    ])
+
+    const startedAt = Date.now()
+    let collected: AnswerSource[] = []
 
     try {
       const res = await fetch("/api/ask", {
@@ -112,16 +173,9 @@ export function HomeComposer() {
       })
 
       if (res.status === 403) {
-        setTurns((prev) =>
-          prev.filter((turn, i) => !(i === prev.length - 1 && turn.role === "assistant" && !turn.content)),
-        )
-        setGated(true)
-        setUsedFree(true)
-        try {
-          localStorage.setItem(FREE_USED_KEY, "1")
-        } catch {
-          // ignore
-        }
+        dropEmptyAssistant()
+        trackEvent("answer_failed", { reason: "gate" })
+        openGate()
         return
       }
 
@@ -134,34 +188,51 @@ export function HomeComposer() {
       let buffer = ""
       let full = ""
 
+      const handleSources = (incoming: AnswerSource[]) => {
+        collected = mergeSources(collected, incoming)
+        applyAssistant((turn) => ({ ...turn, sources: collected }))
+      }
+
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
         buffer += decoder.decode(value, { stream: true })
-        buffer = consumeSse(buffer, (delta) => {
-          full += delta
-          applyDelta(full)
-        })
+        buffer = consumeSse(
+          buffer,
+          (delta) => {
+            full += delta
+            applyAssistant((turn) => ({ ...turn, content: full }))
+          },
+          handleSources,
+        )
       }
-      consumeSse(`${buffer}\n`, (delta) => {
-        full += delta
-        applyDelta(full)
-      })
+      consumeSse(
+        `${buffer}\n`,
+        (delta) => {
+          full += delta
+          applyAssistant((turn) => ({ ...turn, content: full }))
+        },
+        handleSources,
+      )
 
       if (!full.trim()) {
         throw new Error("unavailable")
       }
 
-      try {
-        localStorage.setItem(FREE_USED_KEY, "1")
-      } catch {
-        // ignore
-      }
-      setUsedFree(true)
+      applyAssistant((turn) => ({
+        ...turn,
+        content: full,
+        sources: collected,
+        sourcesReady: true,
+      }))
+      trackEvent("answer_completed", {
+        duration_bucket: durationBucket(Date.now() - startedAt),
+        source_count: collected.length,
+      })
+      openGate()
     } catch {
-      setTurns((prev) =>
-        prev.filter((turn, i) => !(i === prev.length - 1 && turn.role === "assistant" && !turn.content)),
-      )
+      dropEmptyAssistant()
+      trackEvent("answer_failed", { reason: "unavailable" })
       setError(
         "LawBey could not reach the knowledge base just now. Try the full app, or ask again in a moment.",
       )
@@ -170,20 +241,21 @@ export function HomeComposer() {
     }
   }
 
-  function handleChip(value: string) {
+  function handleChip(chip: (typeof chips)[number]) {
     if (hasThread) return
-    void ask(value)
+    trackEvent("sample_prompt_clicked", { category: chip.category })
+    void ask(chip.prompt, "chip")
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    void ask(prompt)
+    void ask(prompt, "composer")
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
-      void ask(prompt)
+      void ask(prompt, "composer")
     }
   }
 
@@ -228,6 +300,9 @@ export function HomeComposer() {
                   ) : (
                     <p className="text-ink/45 text-sm">Searching Bahamian law…</p>
                   )}
+                  {turn.sourcesReady ? (
+                    <SourcesDisclosure sources={turn.sources ?? []} />
+                  ) : null}
                 </div>
               )}
             </div>
@@ -236,17 +311,26 @@ export function HomeComposer() {
           {gated && (
             <div className="rounded-2xl border border-ink/10 bg-white px-5 py-6 text-center shadow-[0_8px_40px_rgba(17,24,39,0.06)]">
               <p className="font-serif text-xl font-semibold tracking-tight">
-                Create an account to keep going
+                {hasAnswer
+                  ? "Save this research"
+                  : "Create a free account to continue"}
               </p>
               <p className="mt-2 text-sm text-ink/55 leading-relaxed">
-                You’ve seen how LawBey works. Sign in for unlimited questions
-                and the full research workspace.
+                {hasAnswer
+                  ? "Create a free account to save this research and continue."
+                  : "This device already used its free homepage question. Create a free account to keep researching in the full app."}
               </p>
               <a
                 href={BETA_URL}
+                onClick={() =>
+                  trackEvent("signup_cta_clicked", {
+                    placement: "composer",
+                    destination: "beta",
+                  })
+                }
                 className="mt-5 inline-flex items-center justify-center px-5 py-2.5 bg-ink text-parchment text-sm font-medium rounded-md hover:bg-ink/90 transition-colors"
               >
-                Continue to LawBey
+                Create a free account
               </a>
             </div>
           )}
@@ -299,7 +383,7 @@ export function HomeComposer() {
             <button
               key={chip.label}
               type="button"
-              onClick={() => handleChip(chip.prompt)}
+              onClick={() => handleChip(chip)}
               className="px-3.5 py-1.5 rounded-full border border-ink/10 bg-white/70 text-sm text-ink/70 hover:text-ink hover:border-ink/20 hover:bg-white transition-all duration-300"
             >
               {chip.label}
@@ -307,7 +391,59 @@ export function HomeComposer() {
           ))}
         </div>
       )}
+
+      <p className="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px] text-ink/40">
+        <span>Built in Freeport</span>
+        <span>Retrieved Bahamian sources</span>
+        <span>One question without an account</span>
+        <Link href="/privacy" className="underline underline-offset-2 hover:text-ink/60">
+          Privacy
+        </Link>
+        <Link href="/terms" className="underline underline-offset-2 hover:text-ink/60">
+          Terms
+        </Link>
+      </p>
     </div>
+  )
+}
+
+function SourcesDisclosure({ sources }: { sources: AnswerSource[] }) {
+  return (
+    <details className="mt-4 rounded-xl border border-ink/10 bg-white/70 px-4 py-3">
+      <summary className="cursor-pointer text-sm font-medium text-ink/70">
+        {sources.length > 0
+          ? `Sources (${sources.length})`
+          : "Sources"}
+      </summary>
+      {sources.length === 0 ? (
+        <p className="mt-3 text-sm text-ink/50 leading-relaxed">
+          No sources were returned for this answer. Treat it as unverified
+          until you can check the law yourself.
+        </p>
+      ) : (
+        <ul className="mt-3 space-y-3">
+          {sources.map((source) => (
+            <li key={source.name} className="text-sm text-ink/70 leading-relaxed">
+              {source.url ? (
+                <a
+                  href={source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-ink underline underline-offset-2"
+                >
+                  {source.name}
+                </a>
+              ) : (
+                <span className="font-medium text-ink">{source.name}</span>
+              )}
+              {source.excerpt ? (
+                <p className="mt-1 text-ink/50">{source.excerpt}</p>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      )}
+    </details>
   )
 }
 
