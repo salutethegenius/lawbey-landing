@@ -17,6 +17,7 @@ export function HomeNav() {
 
         <div className="hidden md:flex items-center gap-6">
           <NavLink href="/about">About</NavLink>
+          <NavLink href="/#product">Product</NavLink>
           <NavLink href="/#pricing">Pricing</NavLink>
           <NavLink href="/#faq">FAQ</NavLink>
           <a
@@ -51,6 +52,9 @@ export function HomeNav() {
         <div className="mx-6 mb-4 px-5 py-5 bg-white/90 backdrop-blur-xl border border-ink/10 rounded-xl flex flex-col gap-4">
           <MobileNavLink href="/about" onClick={() => setIsMobileOpen(false)}>
             About
+          </MobileNavLink>
+          <MobileNavLink href="/#product" onClick={() => setIsMobileOpen(false)}>
+            Product
           </MobileNavLink>
           <MobileNavLink href="/#pricing" onClick={() => setIsMobileOpen(false)}>
             Pricing

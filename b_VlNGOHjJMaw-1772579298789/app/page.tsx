@@ -1,5 +1,6 @@
 import { HomeNav } from "@/components/home-nav"
 import { HomeComposer } from "@/components/home-composer"
+import { HomeProductTour } from "@/components/home-product-tour"
 import { HomePricing } from "@/components/home-pricing"
 import { HomeApi } from "@/components/home-api"
 import { HomeFaq } from "@/components/home-faq"
@@ -22,6 +23,8 @@ export default function Page() {
         </div>
       </div>
 
+      <div className="h-px w-full max-w-7xl mx-auto bg-ink/10" />
+      <HomeProductTour />
       <div className="h-px w-full max-w-7xl mx-auto bg-ink/10" />
       <HomePricing />
       <div className="h-px w-full max-w-7xl mx-auto bg-ink/10" />

@@ -186,6 +186,40 @@
   }
 }
 
+@keyframes tour-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes tour-ken {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.045);
+  }
+}
+
+.animate-tour-progress {
+  transform-origin: left center;
+  animation: tour-progress var(--tour-ms, 5.2s) linear forwards;
+}
+
+.animate-tour-ken {
+  animation: tour-ken var(--tour-ms, 5.2s) ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-tour-progress,
+  .animate-tour-ken {
+    animation: none;
+  }
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
