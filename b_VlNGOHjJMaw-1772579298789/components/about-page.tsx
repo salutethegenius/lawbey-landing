@@ -31,7 +31,7 @@ export function AboutPage() {
       <HomeNav />
 
       <article className="flex-1">
-        <header className="px-6 pt-28 pb-16 lg:px-8 lg:pt-32 lg:pb-20">
+        <header className="px-6 pt-12 pb-16 lg:px-8 lg:pt-16 lg:pb-20">
           <div className="mx-auto max-w-7xl">
             <p className="text-xs tracking-[0.2em] uppercase text-amber font-mono mb-4">
               About

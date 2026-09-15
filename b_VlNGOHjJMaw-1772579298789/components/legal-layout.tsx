@@ -15,7 +15,7 @@ export function LegalLayout({
   return (
     <main className="min-h-screen bg-parchment text-ink flex flex-col">
       <HomeNav />
-      <article className="flex-1 px-6 pt-28 pb-8 lg:px-8">
+      <article className="flex-1 px-6 pt-12 pb-8 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <p className="text-xs tracking-[0.2em] uppercase text-amber font-mono mb-4">
             {eyebrow}
