@@ -10,7 +10,7 @@ export function HomeNav() {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-50">
+    <nav className="sticky top-0 z-50 w-full shrink-0 bg-parchment/90 backdrop-blur-xl border-b border-ink/10">
       <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-5 lg:px-8">
         <Logo variant="light" compact href="/" />
 

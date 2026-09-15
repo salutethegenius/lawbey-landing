@@ -11,7 +11,7 @@ export default function Page() {
     <main className="min-h-screen bg-parchment text-ink flex flex-col">
       <HomeNav />
 
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-24 pb-16 min-h-screen">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-12 pb-16 min-h-[calc(100vh-5.5rem)]">
         <section id="ask" className="w-full max-w-2xl scroll-mt-28">
           <HomeComposer />
 
